@@ -30,6 +30,7 @@ public class CanvasLabel extends JLabel{
 	public void setCanvas(Canvas canvas) {
 		this.canvas = canvas;
 		canvas.setContainer(this);
+		this.setPreferredSize(canvas.getDimension(this.getGraphics()));
 		for (MouseListener ml : getMouseListeners()){
 			if (ml instanceof ElementEventPassThrough){
 				this.removeMouseListener(ml);
@@ -51,7 +52,9 @@ public class CanvasLabel extends JLabel{
 			g.fillRect(0, 0, canvas.getDimension(g).width, canvas.getDimension(g).height);
 			canvas.paint(g, 0, 0);
 		} else {
-			splash.paintIcon(this, g, 0, 0);
+			if (splash!=null){
+				splash.paintIcon(this, g, 0, 0);
+			}
 		}
 	}
 

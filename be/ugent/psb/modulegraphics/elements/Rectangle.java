@@ -39,7 +39,16 @@ public class Rectangle extends Element {
 		g.fillRect(xOffset, yOffset, dim.width*getUnit().width, dim.height*getUnit().height);
 		g.setColor(Color.BLACK);
 		g.drawRect(xOffset, yOffset, dim.width*getUnit().width, dim.height*getUnit().height);
+		if (highlighted){
+			g.setColor(Color.RED);
+			g.drawRect(xOffset, yOffset, dim.width*getUnit().width, dim.height*getUnit().height);
+		}
 		return dim;
+	}
+
+
+	public Color getColor() {
+		return col;
 	}
 
 }
