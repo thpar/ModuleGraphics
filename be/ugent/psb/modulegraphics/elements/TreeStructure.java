@@ -15,12 +15,12 @@ import java.awt.Graphics2D;
  */
 public class TreeStructure extends Element {
 
-	private TreeNode rootNode;
+	private ITreeNode rootNode;
 	private int xPointer;
 	private int xOffset;
 	private int yOffset;
 
-	public TreeStructure(TreeNode rootNode){
+	public TreeStructure(ITreeNode rootNode){
 		this.rootNode = rootNode;
 	}
 	
@@ -63,7 +63,7 @@ public class TreeStructure extends Element {
 	 * @param g
 	 * @return
 	 */
-	private int drawBranches(TreeNode node, int level, int maxHeight, Graphics2D g){
+	private int drawBranches(ITreeNode node, int level, int maxHeight, Graphics2D g){
 		if (!node.isLeaf()){
 			int from = drawBranches(node.left(), level+1, maxHeight, g);
 			int middle = xPointer;
@@ -94,7 +94,7 @@ public class TreeStructure extends Element {
 	 * @param node
 	 * @return
 	 */
-	private int maxDepthCount(TreeNode node){
+	private int maxDepthCount(ITreeNode node){
 		if (!node.isLeaf()){
 			int leftCount = maxDepthCount(node.left());
 			int rightCount = maxDepthCount(node.right());

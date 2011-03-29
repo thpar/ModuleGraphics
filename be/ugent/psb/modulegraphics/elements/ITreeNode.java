@@ -1,18 +1,18 @@
 package be.ugent.psb.modulegraphics.elements;
 
-public interface TreeNode {
+public interface ITreeNode {
 
 	/**
 	 * 
 	 * @return left child node
 	 */
-	public TreeNode left();
+	public ITreeNode left();
 	
 	/**
 	 * 
 	 * @return right child node
 	 */
-	public TreeNode right();
+	public ITreeNode right();
 	
 	/**
 	 * 
