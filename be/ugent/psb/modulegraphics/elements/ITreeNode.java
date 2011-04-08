@@ -1,18 +1,20 @@
 package be.ugent.psb.modulegraphics.elements;
 
-public interface ITreeNode {
+import java.util.List;
+
+public interface ITreeNode<T> {
 
 	/**
 	 * 
 	 * @return left child node
 	 */
-	public ITreeNode left();
+	public ITreeNode<T> left();
 	
 	/**
 	 * 
 	 * @return right child node
 	 */
-	public ITreeNode right();
+	public ITreeNode<T> right();
 	
 	/**
 	 * 
@@ -25,5 +27,12 @@ public interface ITreeNode {
 	 * @return the total width of this node and all its leaves (in units)
 	 */
 	public int getWidth();
+	
+	/**
+	 * 
+	 * @return the actual content of this node
+	 */
+	public List<T> getColumns();
+
 	
 }
