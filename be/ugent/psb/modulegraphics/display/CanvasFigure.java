@@ -12,14 +12,14 @@ import net.sf.epsgraphics.ColorMode;
 import net.sf.epsgraphics.EpsGraphics;
 import be.ugent.psb.modulegraphics.elements.Canvas;
 
-public class FigureCanvas {
+public class CanvasFigure {
 
 	
 
 	private Canvas canvas;
 	private String outputFileName;
 	
-	public FigureCanvas(Canvas canvas, String outputFileName){
+	public CanvasFigure(Canvas canvas, String outputFileName){
 		this.canvas = canvas;
 		this.outputFileName = outputFileName;
 	}
