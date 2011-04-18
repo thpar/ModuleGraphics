@@ -26,7 +26,7 @@ public class CanvasFigure {
 	
 	public void writeToEPS(){
 		
-		File outputFile = new File(outputFileName + ".eps");
+		File outputFile = new File(outputFileName);
 
 		BufferedImage tmp_img = new BufferedImage(200,200, BufferedImage.TYPE_INT_BGR);
 		Graphics2D tmp_g;
