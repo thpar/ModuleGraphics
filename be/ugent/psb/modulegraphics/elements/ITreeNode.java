@@ -34,5 +34,9 @@ public interface ITreeNode<T> {
 	 */
 	public List<T> getColumns();
 
-	
+	/**
+	 * Return all leaves, starting from this node.
+	 * @return
+	 */
+	public List<ITreeNode<T>> getLeaves();
 }
