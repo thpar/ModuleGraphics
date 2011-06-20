@@ -1,5 +1,6 @@
 package be.ugent.psb.modulegraphics.elements;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -81,6 +82,17 @@ public class Canvas extends Element implements Iterable<Element>{
 				XYPair xyAlign = alignElement(g, el, colCounter, rowCounter);
 				
 				el.paint(g, xOffset+x + xyAlign.x, yOffset+y + xyAlign.y);
+				
+				boolean debug = false;
+				//debug
+				if (debug){
+					Color colorBack = g.getColor();
+					g.setColor(Color.RED);
+					Dimension elDims = el.getDimension(g);
+					g.drawRect(xOffset+x, yOffset+y, elDims.width, elDims.height);
+					g.setColor(colorBack);
+				}
+				
 				x+=colMax.get(colCounter++) + horizontalSpacing;
 			}
 			y+=rowMax.get(rowCounter++) + verticalSpacing;

@@ -182,7 +182,9 @@ public abstract class Element{
 				return DEFAULT_UNIT;
 			}
 		}
-		else return this.unit;
+		else {
+			return this.unit;
+		}
 	}
 	
 

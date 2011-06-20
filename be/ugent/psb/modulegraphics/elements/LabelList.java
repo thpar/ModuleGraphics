@@ -108,14 +108,14 @@ public class LabelList extends Element{
 		case LEFT_TO_RIGHT:
 			totalWidth = labels.size()* this.getUnit().width;
 			if (pushBounds){
-				totalWidth = totalWidth - this.getUnit().width + maxWidth;
+//				totalWidth = totalWidth - this.getUnit().width + maxWidth;
 			}
 			totalHeight = maxHeight;
 			break;
 		case TOP_TO_BOTTOM:
 			totalHeight = labels.size() * this.getUnit().height;
 			if (pushBounds){
-				totalHeight = totalHeight - this.getUnit().height +maxHeight;
+//				totalHeight = totalHeight - this.getUnit().height +maxHeight;
 			}
 			totalWidth = maxWidth;
 			break;
@@ -156,14 +156,17 @@ public class LabelList extends Element{
 		
 		switch(dir){
 		case LEFT_TO_RIGHT:
-			totalWidth = labels.size()* (this.getUnit().width-1) + maxWidth;
+//			totalWidth = labels.size()* (this.getUnit().width-1) + maxWidth;
+			totalWidth = labels.size()* (this.getUnit().width);
 			totalHeight = maxHeight;
 			break;
 		case TOP_TO_BOTTOM:
-			totalHeight = labels.size()* (this.getUnit().height-1) + maxHeight;
+//			totalHeight = labels.size()* (this.getUnit().height-1) + maxHeight;
+			totalHeight = labels.size()* (this.getUnit().height);
 			totalWidth = maxWidth;
 			break;
 		}
+		
 		return new Dimension(totalWidth, totalHeight);
 	}
 	
