@@ -27,6 +27,8 @@ public class Canvas extends Element implements Iterable<Element>{
 	
 	private Element lastAddedElement;
 	
+	private int currentX = 0;
+	private int currentY = 0;
 	
 	public Canvas(){
 		currentRow = new ArrayList<Element>();
@@ -105,15 +107,72 @@ public class Canvas extends Element implements Iterable<Element>{
 		return new Dimension(gridWidth - horizontalSpacing, y-verticalSpacing);
 	}
 	
-
+	/**
+	 * Adds an element to this Canvas.
+	 * 
+	 * @param el
+	 */
 	public void add(Element el){
-		currentRow.add(el);
+		while (currentX<currentRow.size() && 
+				!(currentRow.get(currentX) instanceof NullElement)){
+			currentX++;
+		}
+		if (currentX<currentRow.size()){
+			currentRow.set(currentX, el);
+		} else {
+			currentRow.add(el);
+		}
 		lastAddedElement = el;
 		el.setParentElement(this);
+		currentX++;
 	}
+	
+	/**
+	 * Adds an element to this Canvas, while "exploding" the top level. Eg. if the 
+	 * highest level of the element is a Canvas in itself, it will add the first level of
+	 * elements while ignoring all Canvas settings. This is useful for constructing 
+	 * 
+	 * 
+	 * @param el
+	 */
+	public void addExplode(Element el){
+		if (el instanceof Canvas){
+			Canvas can = (Canvas)el;
+//			List<Element> startRow = this.currentRow;
+//			int startCol = startRow.size();
+			int startX = currentX;
+			int startY = currentY;
+			for (Iterator<List<Element>> rit = can.rowIterator(); rit.hasNext();){
+				List<Element> row = rit.next();
+				for (Element newEl : row){
+					this.add(newEl);
+				}
+				if (rit.hasNext()){
+					this.newRow();
+					for (int i=0; i<startX; i++){
+						this.add(new NullElement());
+					}
+				}
+			}
+			this.currentRow = grid.get(startY);
+			this.currentY = startY;
+			this.currentX = startX;
+
+		} else {
+			this.add(el);
+		}
+	}
+	
+	
 	public void newRow(){		
-		currentRow = new ArrayList<Element>();
-		grid.add(currentRow);
+		currentX = 0;
+		currentY++;
+		if (currentY>=grid.size()){
+			currentRow = new ArrayList<Element>();			
+			grid.add(currentRow);
+		} else {
+			currentRow = grid.get(currentY);
+		}
 	}
 
 	/**
@@ -246,13 +305,18 @@ public class Canvas extends Element implements Iterable<Element>{
 		return new GridIterator();
 	}
 	
+	public Iterator<List<Element>> rowIterator(){
+		return grid.iterator();
+	}
+	
+	
 	private class GridIterator implements Iterator<Element>{
 
 		Iterator<List<Element>> rowIt;
 		Iterator<Element> colIt;
 		
 		public GridIterator(){
-			rowIt = grid.iterator();
+			rowIt = rowIterator();
 		}
 		
 		@Override
