@@ -3,7 +3,6 @@ package be.ugent.psb.modulegraphics.elements;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
@@ -28,6 +27,8 @@ public class Label extends Element {
 	private Font normalFont;
 	
 	
+	
+	
 	/**
 	 * Create a horizontal label with default font.
 	 * 
@@ -43,6 +44,7 @@ public class Label extends Element {
 		setFont(font);
 	}
 	
+	
 	public String getLabelString() {
 		return labelString;
 	}
@@ -56,8 +58,14 @@ public class Label extends Element {
 
 	public Font getDerivedFont() {
 		AffineTransform tx = new AffineTransform();
-		tx.rotate(angle);
+		tx.rotate(this.getRotationAngle());
 		return font.deriveFont(tx);
+	}
+
+	private double getRotationAngle() {
+		if (angle< -Math.PI/2) return angle+Math.PI;
+		else if (angle> Math.PI/2) return angle-Math.PI;
+		else return angle;
 	}
 
 	public Font getFont(){
@@ -69,9 +77,19 @@ public class Label extends Element {
 		return angle;
 	}
 
+	
+	
 
-
+	/**
+	 * Angle in radials. Given angle is rescaled to fall between -PI and +PI
+	 * 
+	 * @param angle
+	 */
 	public void setAngle(double angle) {
+		angle = angle % (Math.PI*2);
+		if (Math.abs(angle)>Math.PI){
+			angle = angle>0? angle-Math.PI*2:angle+Math.PI*2;
+		}
 		this.angle = angle;
 	}
 
@@ -98,22 +116,25 @@ public class Label extends Element {
 	@Override
 	public Dimension paintElement(Graphics2D g, int xOffset, int yOffset) {
 		Dimension bounds = getDimension(g);
-		FontRenderContext frc = g.getFontRenderContext();
-		FontMetrics metrics = g.getFontMetrics(getDerivedFont());
-		int ascend = metrics.getAscent();
-		int descend = metrics.getDescent();
 		
-		TextLayout layout = new TextLayout(labelString, getDerivedFont(), frc);
-
-		g.setFont(getDerivedFont());
+		
+		FontRenderContext frc = g.getFontRenderContext();
+		Font df = getDerivedFont();
+		
+		TextLayout layout = new TextLayout(labelString, df, frc);
+		Rectangle2D layoutBounds = layout.getBounds();
+		
+		
+		g.setFont(df);
 		if (highlighted){
 			g.setColor(highlightedColor);
 		} else{
 			g.setColor(color);
 		}
-		layout.draw(g, xOffset, yOffset + ascend - descend);
+
 		
-		
+		layout.draw(g, (float)(xOffset - layoutBounds.getX()), (float)(yOffset - layoutBounds.getY()));
+
 		return bounds;
 	}
 
@@ -151,6 +172,7 @@ public class Label extends Element {
 		this.highlightedColor = highlightedColor;
 	}
 
+	
 	
 
 }

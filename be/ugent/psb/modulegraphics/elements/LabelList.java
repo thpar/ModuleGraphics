@@ -18,19 +18,41 @@ public class LabelList extends Element{
 
 	private List<Label> labels = new ArrayList<Label>();
 	
-	
+	/**
+	 * List labels next to or below eachother
+	 * @author thpar
+	 *
+	 */
 	public enum Direction{
 		LEFT_TO_RIGHT, TOP_TO_BOTTOM;
 	}
 	
+	/**
+	 * Draw labels straight or under an angle
+	 * @author thpar
+	 *
+	 */
 	public enum Angle{
 		STRAIGHT, SKEWED;
 	}
 	
+	public enum Alignment{
+		LEFT, RIGHT, CENTER;
+	}
+	
+	/**
+	 * Direction to turn your head while reading
+	 * @author thpar
+	 *
+	 */
+	public enum ReadingAngle{
+		LEFT, RIGHT;
+	}
+	
 	private Direction dir = Direction.LEFT_TO_RIGHT;
 	private Angle angle = Angle.STRAIGHT;
-//	private Font font;
-	
+	private ReadingAngle rAngle = ReadingAngle.RIGHT;
+	private Alignment alignment = Alignment.LEFT;		
 	private boolean pushBounds = true;
 	
 	public LabelList(List<String> labelStrings){
@@ -68,6 +90,7 @@ public class LabelList extends Element{
 		return angle;
 	}
 	
+		
 
 	public Direction getDir() {
 		return dir;
@@ -79,6 +102,14 @@ public class LabelList extends Element{
 
 	
 	
+	public ReadingAngle getrAngle() {
+		return rAngle;
+	}
+
+	public void setrAngle(ReadingAngle rAngle) {
+		this.rAngle = rAngle;
+	}
+
 	public boolean isPushBounds() {
 		return pushBounds;
 	}
@@ -95,8 +126,7 @@ public class LabelList extends Element{
 		
 		for (Label label : labels){
 			this.setLabelAngle(label);
-//			label.setFont(font);
-			
+		
 			Dimension dim = label.getDimension(g);
 			maxWidth = Math.max(maxWidth, dim.width);
 			maxHeight = Math.max(maxHeight, dim.height);	
@@ -134,7 +164,6 @@ public class LabelList extends Element{
 		
 		for (Label label : labels){
 			
-//			label.setFont(font);
 			this.setLabelAngle(label);
 			label.paint(g, x + xOffset, y + yOffset);
 			switch(dir){
@@ -156,12 +185,10 @@ public class LabelList extends Element{
 		
 		switch(dir){
 		case LEFT_TO_RIGHT:
-//			totalWidth = labels.size()* (this.getUnit().width-1) + maxWidth;
 			totalWidth = labels.size()* (this.getUnit().width);
 			totalHeight = maxHeight;
 			break;
 		case TOP_TO_BOTTOM:
-//			totalHeight = labels.size()* (this.getUnit().height-1) + maxHeight;
 			totalHeight = labels.size()* (this.getUnit().height);
 			totalWidth = maxWidth;
 			break;
@@ -174,17 +201,32 @@ public class LabelList extends Element{
 	private void setLabelAngle(Label label){
 		switch(angle){
 		case SKEWED:
-			label.setAngle(Math.PI/4);
+			switch(rAngle){
+			case LEFT:
+				label.setAngle(-Math.PI/4);
+				break;
+			case RIGHT:
+				label.setAngle(Math.PI/4);
+				break;				
+			}
 			break;
 		case STRAIGHT:
 			switch(dir){
 			case LEFT_TO_RIGHT:
-				label.setAngle(Math.PI/2);				
+				switch(rAngle){
+				case LEFT:
+					label.setAngle(-Math.PI/2);				
+					break;
+				case RIGHT:
+					label.setAngle(Math.PI/2);				
+					break;
+				}
 				break;
 			case TOP_TO_BOTTOM:
 				label.setAngle(0);
 				break;
 			}
+			break;
 		}
 	}
 
