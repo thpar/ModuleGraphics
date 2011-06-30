@@ -37,7 +37,7 @@ public class LabelList extends Element{
 	}
 	
 	public enum Alignment{
-		LEFT, RIGHT, CENTER;
+		LEFT, RIGHT, TOP, BOTTOM, CENTER;
 	}
 	
 	/**
@@ -52,7 +52,7 @@ public class LabelList extends Element{
 	private Direction dir = Direction.LEFT_TO_RIGHT;
 	private Angle angle = Angle.STRAIGHT;
 	private ReadingAngle rAngle = ReadingAngle.RIGHT;
-	private Alignment alignment = Alignment.LEFT;		
+	private Alignment labelAlignment = Alignment.LEFT;		
 	private boolean pushBounds = true;
 	
 	public LabelList(List<String> labelStrings){
@@ -137,16 +137,16 @@ public class LabelList extends Element{
 		switch(dir){
 		case LEFT_TO_RIGHT:
 			totalWidth = labels.size()* this.getUnit().width;
-			if (pushBounds){
+//			if (pushBounds){
 //				totalWidth = totalWidth - this.getUnit().width + maxWidth;
-			}
+//			}
 			totalHeight = maxHeight;
 			break;
 		case TOP_TO_BOTTOM:
 			totalHeight = labels.size() * this.getUnit().height;
-			if (pushBounds){
+//			if (pushBounds){
 //				totalHeight = totalHeight - this.getUnit().height +maxHeight;
-			}
+//			}
 			totalWidth = maxWidth;
 			break;
 		}
@@ -156,16 +156,49 @@ public class LabelList extends Element{
 
 	@Override
 	public Dimension paintElement(Graphics2D g, int xOffset, int yOffset) {
+		Dimension rawDim = this.getRawDimension(g);
+		
 		int x = 0;
 		int y = 0;
 		
-		int maxWidth = 0;
-		int maxHeight = 0;
+//		int maxWidth = 0;
+//		int maxHeight = 0;
 		
 		for (Label label : labels){
 			
 			this.setLabelAngle(label);
-			label.paint(g, x + xOffset, y + yOffset);
+			Dimension labelDim = label.getRawDimension(g);
+			int xAlignOffset = 0;
+			int yAlignOffset = 0;
+			
+			switch(dir){
+			case LEFT_TO_RIGHT:
+				switch(this.labelAlignment){
+				case RIGHT:
+				case BOTTOM:
+					yAlignOffset=rawDim.height-labelDim.height;
+					break;
+				case LEFT:
+				case TOP:
+				case CENTER:
+				}
+				break;
+			case TOP_TO_BOTTOM:
+				switch(this.labelAlignment){
+				case RIGHT:
+				case BOTTOM:
+					xAlignOffset=rawDim.width-labelDim.width;
+					break;
+				case LEFT:
+				case TOP:
+				case CENTER:
+				}
+				break;
+			}
+			
+			
+			
+			label.paint(g, x + xOffset + xAlignOffset, y + yOffset + yAlignOffset);
 			switch(dir){
 			case LEFT_TO_RIGHT:
 				x+=this.getUnit().width;
@@ -175,26 +208,26 @@ public class LabelList extends Element{
 				break;
 			}
 			
-			Dimension dim = label.getDimension(g);
-			maxWidth = Math.max(maxWidth, dim.width);
-			maxHeight = Math.max(maxWidth, dim.height);	
+//			Dimension dim = label.getDimension(g);
+//			maxWidth = Math.max(maxWidth, dim.width);
+//			maxHeight = Math.max(maxWidth, dim.height);	
 		}
 		
-		int totalWidth = 0;
-		int totalHeight = 0;
+//		int totalWidth = 0;
+//		int totalHeight = 0;
 		
-		switch(dir){
-		case LEFT_TO_RIGHT:
-			totalWidth = labels.size()* (this.getUnit().width);
-			totalHeight = maxHeight;
-			break;
-		case TOP_TO_BOTTOM:
-			totalHeight = labels.size()* (this.getUnit().height);
-			totalWidth = maxWidth;
-			break;
-		}
+//		switch(dir){
+//		case LEFT_TO_RIGHT:
+//			totalWidth = labels.size()* (this.getUnit().width);
+//			totalHeight = maxHeight;
+//			break;
+//		case TOP_TO_BOTTOM:
+//			totalHeight = labels.size()* (this.getUnit().height);
+//			totalWidth = maxWidth;
+//			break;
+//		}
 		
-		return new Dimension(totalWidth, totalHeight);
+		return new Dimension(rawDim.width, rawDim.height);
 	}
 	
 	
@@ -273,5 +306,14 @@ public class LabelList extends Element{
 			if (l.getString().equals(name)) l.toggleHighlighted();
 		}
 	}
+
+	public Alignment getLabelAlignment() {
+		return labelAlignment;
+	}
+
+	public void setLabelAlignment(Alignment labelAlignment) {
+		this.labelAlignment = labelAlignment;
+	}
+	
 	
 }

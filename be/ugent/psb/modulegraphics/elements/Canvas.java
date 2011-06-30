@@ -30,6 +30,18 @@ public class Canvas extends Element implements Iterable<Element>{
 	private int currentX = 0;
 	private int currentY = 0;
 	
+	/**
+	 * Defines where to anchor a Canvas you want to explodeAdd to another canvas.
+	 * Default will be the NW (top left) corner.
+	 * 
+	 * @author thpar
+	 *
+	 */
+	public enum Anchor{
+		NW, SW;
+	}
+	
+	
 	public Canvas(){
 		currentRow = new ArrayList<Element>();
 		grid.add(currentRow);
@@ -125,7 +137,7 @@ public class Canvas extends Element implements Iterable<Element>{
 		lastAddedElement = el;
 		el.setParentElement(this);
 		currentX++;
-	}
+	} 
 	
 	/**
 	 * Adds an element to this Canvas, while "exploding" the top level. Eg. if the 
@@ -136,10 +148,22 @@ public class Canvas extends Element implements Iterable<Element>{
 	 * @param el
 	 */
 	public void addExplode(Element el){
+		this.addExplode(el, Anchor.NW);
+	}
+	
+	/**
+	 * Adds an element to this Canvas, while "exploding" the top level. Eg. if the 
+	 * highest level of the element is a Canvas in itself, it will add the first level of
+	 * elements while ignoring all Canvas settings. This is useful for constructing 
+	 * 
+	 * 
+	 * @param el element to add (and explode)
+	 * @param anc corner to use as starting point.
+	 */
+	public void addExplode(Element el, Anchor anc){
 		if (el instanceof Canvas){
 			Canvas can = (Canvas)el;
-//			List<Element> startRow = this.currentRow;
-//			int startCol = startRow.size();
+
 			int startX = currentX;
 			int startY = currentY;
 			for (Iterator<List<Element>> rit = can.rowIterator(); rit.hasNext();){
