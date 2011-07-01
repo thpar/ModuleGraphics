@@ -166,6 +166,11 @@ public class Canvas extends Element implements Iterable<Element>{
 
 			int startX = currentX;
 			int startY = currentY;
+			
+			if (anc==Anchor.SW){
+				
+			}
+			
 			for (Iterator<List<Element>> rit = can.rowIterator(); rit.hasNext();){
 				List<Element> row = rit.next();
 				for (Element newEl : row){
