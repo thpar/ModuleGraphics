@@ -7,10 +7,9 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
 
-import be.ugent.psb.modulegraphics.display.CanvasLabel;
 import be.ugent.psb.modulegraphics.display.CanvasFigure;
+import be.ugent.psb.modulegraphics.display.CanvasLabel;
 import be.ugent.psb.modulegraphics.elements.Canvas;
-import be.ugent.psb.modulegraphics.elements.Element;
 import be.ugent.psb.modulegraphics.elements.Rectangle;
 
 public class CanvasTest implements MouseListener {

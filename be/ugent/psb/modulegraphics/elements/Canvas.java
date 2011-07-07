@@ -125,12 +125,10 @@ public class Canvas extends Element implements Iterable<Element>{
 	 * @param el
 	 */
 	public void add(Element el){
-		while (currentX<currentRow.size() && 
-				!(currentRow.get(currentX) instanceof NullElement)){
-			currentX++;
-		}
 		if (currentX<currentRow.size()){
-			currentRow.set(currentX, el);
+			if (currentRow.get(currentX) instanceof NullElement){
+				currentRow.set(currentX, el);
+			}
 		} else {
 			currentRow.add(el);
 		}
@@ -139,6 +137,18 @@ public class Canvas extends Element implements Iterable<Element>{
 		currentX++;
 	} 
 	
+	private void position(int x, int y){
+		//go to row
+		currentY=0;
+		currentRow = grid.get(currentY);
+		while (currentY<y){
+			newRow();
+		}
+		currentX=0;
+		while (currentX<x){
+			add(new NullElement());
+		}
+	}
 	/**
 	 * Adds an element to this Canvas, while "exploding" the top level. Eg. if the 
 	 * highest level of the element is a Canvas in itself, it will add the first level of
@@ -168,7 +178,9 @@ public class Canvas extends Element implements Iterable<Element>{
 			int startY = currentY;
 			
 			if (anc==Anchor.SW){
-				
+				int rows = can.grid.size();
+				currentY-=rows;
+				currentRow = grid.get(currentY);
 			}
 			
 			for (Iterator<List<Element>> rit = can.rowIterator(); rit.hasNext();){
@@ -178,9 +190,7 @@ public class Canvas extends Element implements Iterable<Element>{
 				}
 				if (rit.hasNext()){
 					this.newRow();
-					for (int i=0; i<startX; i++){
-						this.add(new NullElement());
-					}
+					position(startX, currentY);
 				}
 			}
 			this.currentRow = grid.get(startY);

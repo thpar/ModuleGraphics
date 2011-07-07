@@ -123,7 +123,7 @@ public class CanvasFigure {
 		canvas.paint(g2);
 		
 		g2.dispose();
-		cb.addTemplate(tp, 0, 0); // 0, 100 = x,y positioning of graphics in PDF page
+		cb.addTemplate(tp, 0, 0); 
 		document.close();
 	}
 
