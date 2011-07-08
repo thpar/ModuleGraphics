@@ -157,10 +157,18 @@ public abstract class Element{
 		this.leftMargin = left;
 	}
 
+	/**
+	 * The way this element will align itself within the {@link Canvas}.
+	 * @return
+	 */
 	public Alignment getAlignment() {
 		return align;
 	}
 
+	/**
+	 * Define how this element will be aligned.
+	 * @param align
+	 */
 	public void setAlignment(Alignment align) {
 		this.align = align;
 	}

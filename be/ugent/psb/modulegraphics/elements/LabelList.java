@@ -161,8 +161,6 @@ public class LabelList extends Element{
 		int x = 0;
 		int y = 0;
 		
-//		int maxWidth = 0;
-//		int maxHeight = 0;
 		
 		for (Label label : labels){
 			
@@ -208,25 +206,10 @@ public class LabelList extends Element{
 				break;
 			}
 			
-//			Dimension dim = label.getDimension(g);
-//			maxWidth = Math.max(maxWidth, dim.width);
-//			maxHeight = Math.max(maxWidth, dim.height);	
+	
 		}
 		
-//		int totalWidth = 0;
-//		int totalHeight = 0;
-		
-//		switch(dir){
-//		case LEFT_TO_RIGHT:
-//			totalWidth = labels.size()* (this.getUnit().width);
-//			totalHeight = maxHeight;
-//			break;
-//		case TOP_TO_BOTTOM:
-//			totalHeight = labels.size()* (this.getUnit().height);
-//			totalWidth = maxWidth;
-//			break;
-//		}
-		
+
 		return new Dimension(rawDim.width, rawDim.height);
 	}
 	

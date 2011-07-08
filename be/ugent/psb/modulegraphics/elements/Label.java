@@ -103,6 +103,8 @@ public class Label extends Element {
 
 	@Override
 	public Dimension getRawDimension(Graphics2D g) {
+		if (labelString==null || labelString.isEmpty()) return new Dimension(0,0);
+		
 		FontRenderContext frc = g.getFontRenderContext();
 
 		TextLayout layout = new TextLayout(labelString, getDerivedFont(), frc);
@@ -115,8 +117,9 @@ public class Label extends Element {
 
 	@Override
 	public Dimension paintElement(Graphics2D g, int xOffset, int yOffset) {
-		Dimension bounds = getDimension(g);
+		if (labelString==null || labelString.isEmpty()) return new Dimension(0,0);
 		
+		Dimension bounds = getDimension(g);
 		
 		FontRenderContext frc = g.getFontRenderContext();
 		Font df = getDerivedFont();
