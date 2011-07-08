@@ -26,6 +26,7 @@ public class Label extends Element {
 	private Color highlightedColor = Color.RED;
 	private Font normalFont;
 	
+	private Color backgroundColor;
 	
 	
 	
@@ -127,6 +128,12 @@ public class Label extends Element {
 		TextLayout layout = new TextLayout(labelString, df, frc);
 		Rectangle2D layoutBounds = layout.getBounds();
 		
+		if (this.backgroundColor!=null){
+			Color cBak = g.getColor();
+			g.setColor(this.backgroundColor);
+			g.fillRect(xOffset, yOffset, bounds.width, bounds.height);
+			g.setColor(cBak);
+		}
 		
 		g.setFont(df);
 		if (highlighted){
@@ -138,6 +145,7 @@ public class Label extends Element {
 		
 		layout.draw(g, (float)(xOffset - layoutBounds.getX()), (float)(yOffset - layoutBounds.getY()));
 
+		
 		return bounds;
 	}
 
@@ -173,6 +181,14 @@ public class Label extends Element {
 
 	public void setHighlightedColor(Color highlightedColor) {
 		this.highlightedColor = highlightedColor;
+	}
+
+	public Color getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public void setBackgroundColor(Color backgroundColor) {
+		this.backgroundColor = backgroundColor;
 	}
 
 	

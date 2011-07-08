@@ -1,11 +1,14 @@
 package be.ugent.psb.modulegraphics.elements;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A LabelList takes a List of Strings and draws them next to or under eachother
@@ -17,6 +20,7 @@ import java.util.List;
 public class LabelList extends Element{
 
 	private List<Label> labels = new ArrayList<Label>();
+	private Map<String, Label> nameToLabel = new HashMap<String, Label>();
 	
 	/**
 	 * List labels next to or below eachother
@@ -59,6 +63,7 @@ public class LabelList extends Element{
 		for (String labelString : labelStrings){
 			Label newLabel = new Label(labelString);
 			labels.add(newLabel);
+			nameToLabel.put(labelString, newLabel);
 			newLabel.setParentElement(this);
 		}
 		setFont(new Font("SansSerif", Font.PLAIN, 12));
@@ -298,5 +303,18 @@ public class LabelList extends Element{
 		this.labelAlignment = labelAlignment;
 	}
 	
+	public void colorBackgrounds(List<String> names, Color color){
+		for (String name : names){
+			Label l = nameToLabel.get(name);
+			if (l!=null){
+				l.setBackgroundColor(color);
+			}
+		}
+	}
+	public void resetBackgrounds(){
+		for (Label l: labels){
+			l.setBackgroundColor(null);
+		}
+	}
 	
 }
