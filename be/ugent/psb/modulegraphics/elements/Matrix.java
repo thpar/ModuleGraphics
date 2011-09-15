@@ -1,7 +1,5 @@
 package be.ugent.psb.modulegraphics.elements;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -13,16 +11,11 @@ import java.awt.Point;
  *
  * @param <T> the type of value the matrix contains.
  */
-public class Matrix<T> extends Element {
+abstract public class Matrix<T> extends Element {
 
-	private T[][] data;
-	private Colorizer<T> c;
+	protected T[][] data;
+
 	
-	
-	public Matrix(T[][] data, Colorizer<T> c) {
-		this.data = data;
-		this.c = c;
-	}
 
 	@Override
 	protected Dimension getRawDimension(Graphics2D g) {
@@ -35,25 +28,8 @@ public class Matrix<T> extends Element {
 	}
 
 	@Override
-	protected Dimension paintElement(Graphics2D g, int xOffset, int yOffset) {
-		int x = 0;
-		int y = 0;
-		Dimension unit = getUnit();
-		g.setStroke(new BasicStroke());
-		for (T[] row : data){
-			for (T element : row){
-				Color color = c.getColor(element);
-				g.setColor(color);
-				g.fillRect(x + xOffset, y + yOffset, unit.width, unit.height);
-				g.setColor(Color.BLACK);
-				g.drawRect(x + xOffset, y + yOffset, unit.width, unit.height);
-				x+=unit.width;
-			}
-			y+=getUnit().height;
-			x=0;
-		}
-		return getRawDimension(g);
-	}
+	abstract protected Dimension paintElement(Graphics2D g, int xOffset, int yOffset);
+
 	
 	/**
 	 * Returns the location in the data matrix that has been hit.
