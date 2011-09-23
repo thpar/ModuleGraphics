@@ -302,19 +302,32 @@ public class Canvas extends Element implements Iterable<Element>{
 	public Element getLastAddedElement(){
 		return lastAddedElement;
 	}
-	
+	/**
+	 * The spacing of a Canvas defines how far apart its child elements will be drawn.
+	 * @param horizontalSpacing
+	 */
 	public int getHorizontalSpacing() {
 		return horizontalSpacing;
 	}
 	
+	/**
+	 * The spacing of a Canvas defines how far apart its child elements will be drawn.
+	 * @param horizontalSpacing
+	 */
 	public void setHorizontalSpacing(int horizontalSpacing) {
 		this.horizontalSpacing = horizontalSpacing;
 	}
-	
+	/**
+	 * The spacing of a Canvas defines how far apart its child elements will be drawn.
+	 * @return
+	 */
 	public int getVerticalSpacing() {
 		return verticalSpacing;
 	}
-	
+	/**
+	 * The spacing of a Canvas defines how far apart its child elements will be drawn.
+	 * @param horizontalSpacing
+	 */
 	public void setVerticalSpacing(int verticalSpacing) {
 		this.verticalSpacing = verticalSpacing;
 	}

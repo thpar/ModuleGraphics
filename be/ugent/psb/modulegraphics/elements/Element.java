@@ -1,5 +1,6 @@
 package be.ugent.psb.modulegraphics.elements;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -34,6 +35,8 @@ public abstract class Element{
 	private List<MouseListener> mouseListeners = new ArrayList<MouseListener>();
 	private List<Element> childElements = new ArrayList<Element>();
 	
+	private static boolean debugMode = false; 
+	
 	private static final Dimension DEFAULT_UNIT = new Dimension(10,20);
 
 	/**
@@ -64,6 +67,14 @@ public abstract class Element{
 		this.paintedAtTopLeft = new Point(xOffset+leftMargin, yOffset+topMargin);
 		Dimension dim = paintElement((Graphics2D) g,xOffset+leftMargin, yOffset+topMargin);
 		Dimension realDim = new Dimension(dim.width+leftMargin+rightMargin, dim.height+topMargin+bottomMargin);
+		
+		//debug
+		if (debugMode){
+			Color tmpColor = g.getColor();
+			g.setColor(Color.RED);
+			g.drawRect(xOffset, yOffset, realDim.width, realDim.height);
+			g.setColor(tmpColor);
+		}
 		return realDim;
 	}
 
@@ -166,7 +177,8 @@ public abstract class Element{
 	}
 
 	/**
-	 * Define how this element will be aligned.
+	 * Define how this element will be aligned. This defines the alignment of 
+	 * the Element (or Canvas) itself within its parent Canvas, NOT the way child Elements will be aligned.
 	 * @param align
 	 */
 	public void setAlignment(Alignment align) {
@@ -178,10 +190,22 @@ public abstract class Element{
 		this.leftMargin = leftMargin;
 	}
 
+	/**
+	 * Set the unit used in this Element. Most Elements use the unit to define the dimensions
+	 * of a label, a square in a matrix, etc...
+	 * 
+	 * @param unit
+	 */
 	public void setUnit(Dimension unit) {
 		this.unit = unit;
 	}
 
+	/**
+	 * Returns the unit used in this Element. The Dimension of a unit is used as dimensions of the 
+	 * labels, matrix squares, etc... in this Element. If no unit is set, an Element will
+	 * automatically ask its parent Element. 
+	 * @return
+	 */
 	public Dimension getUnit() {
 		if (unit==null) {
 			if (parentElement != null){
@@ -299,5 +323,16 @@ public abstract class Element{
 	public Container getContainer(){
 		return this.container;
 	}
+
+	public static boolean isDebugMode() {
+		return debugMode;
+	}
+
+	public static void setDebugMode(boolean debugMode) {
+		Element.debugMode = debugMode;
+	}
+	
+	
+	
 	
 }

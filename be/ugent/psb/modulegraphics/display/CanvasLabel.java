@@ -1,6 +1,7 @@
 package be.ugent.psb.modulegraphics.display;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseListener;
 
@@ -64,6 +65,7 @@ public class CanvasLabel extends JLabel{
 
 	public void setSplash(ImageIcon splash) {
 		this.splash = splash;
+		this.setPreferredSize(new Dimension(splash.getIconWidth(), splash.getIconHeight()));
 	}
 	
 	
