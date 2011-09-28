@@ -28,16 +28,23 @@ public class CanvasLabel extends JLabel{
 		return canvas;
 	}
 
+	/**
+	 * Set the Canvas on this label. Mouselisteners will be passed on from the JLabel to the Canvas
+	 * and the preferred size will be switched to the dimensions of the Canvas.
+	 * If canvas is null, the size is switched to that of the splash (if set) 
+	 */
 	public void setCanvas(Canvas canvas) {
 		this.canvas = canvas;
-		canvas.setContainer(this);
-		this.setPreferredSize(canvas.getDimension(this.getGraphics()));
-		for (MouseListener ml : getMouseListeners()){
-			if (ml instanceof ElementEventPassThrough){
-				this.removeMouseListener(ml);
+		if (canvas != null){
+			canvas.setContainer(this);
+			for (MouseListener ml : getMouseListeners()){
+				if (ml instanceof ElementEventPassThrough){
+					this.removeMouseListener(ml);
+				}
 			}
-		}
-		this.addMouseListener(new ElementEventPassThrough(canvas));
+			this.addMouseListener(new ElementEventPassThrough(canvas));
+		} 
+		this.setSize();
 		this.repaint();
 	}
 
@@ -65,7 +72,16 @@ public class CanvasLabel extends JLabel{
 
 	public void setSplash(ImageIcon splash) {
 		this.splash = splash;
-		this.setPreferredSize(new Dimension(splash.getIconWidth(), splash.getIconHeight()));
+	}
+	
+	private void setSize(){
+		if (canvas!=null){
+			this.setPreferredSize(canvas.getDimension(this.getGraphics()));
+		} else if (splash!=null){
+			this.setPreferredSize(new Dimension(splash.getIconWidth(), splash.getIconHeight()));					
+		} else {
+			this.setPreferredSize(new Dimension(250,200));
+		}
 	}
 	
 	
