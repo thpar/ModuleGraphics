@@ -56,10 +56,16 @@ public class ConnectArrows extends Element{
 	public class Edge {
 		public int from;
 		public int to;
+		public Color color;
 		
 		public Edge(int from, int to){
 			this.from = from;
 			this.to = to;
+		}
+		public Edge(int from, int to, Color c){
+			this.from = from;
+			this.to = to;
+			this.color = c;
 		}
 	}
 	
