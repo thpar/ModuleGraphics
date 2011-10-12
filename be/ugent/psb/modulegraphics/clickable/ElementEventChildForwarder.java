@@ -26,7 +26,7 @@ public class ElementEventChildForwarder implements MouseListener {
 		Element child = parent.getHitChild(e.getX(), e.getY());
 		if (child!=null){
 			for (MouseListener ml : child.getMouseListeners()){
-				e.setSource(child);
+//				e.setSource(child);
 				ml.mouseClicked(e);
 			}
 		}
@@ -37,7 +37,7 @@ public class ElementEventChildForwarder implements MouseListener {
 		Element child = parent.getHitChild(e.getX(), e.getY());
 		if (child!=null){
 			for (MouseListener ml : child.getMouseListeners()){
-				e.setSource(child);
+//				e.setSource(child);
 				ml.mouseEntered(e);
 			}
 		}
@@ -48,7 +48,7 @@ public class ElementEventChildForwarder implements MouseListener {
 		Element child = parent.getHitChild(e.getX(), e.getY());
 		if (child!=null){
 			for (MouseListener ml : child.getMouseListeners()){
-				e.setSource(child);
+//				e.setSource(child);
 				ml.mouseExited(e);
 			}
 		}
@@ -59,7 +59,7 @@ public class ElementEventChildForwarder implements MouseListener {
 		Element child = parent.getHitChild(e.getX(), e.getY());
 		if (child!=null){
 			for (MouseListener ml : child.getMouseListeners()){
-				e.setSource(child);
+//				e.setSource(child);
 				ml.mousePressed(e);
 			}
 		}
@@ -70,7 +70,7 @@ public class ElementEventChildForwarder implements MouseListener {
 		Element child = parent.getHitChild(e.getX(), e.getY());
 		if (child!=null){
 			for (MouseListener ml : child.getMouseListeners()){
-				e.setSource(child);
+//				e.setSource(child);
 				ml.mouseReleased(e);
 			}
 		}

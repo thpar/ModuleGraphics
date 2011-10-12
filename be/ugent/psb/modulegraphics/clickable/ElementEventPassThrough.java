@@ -26,7 +26,7 @@ public class ElementEventPassThrough implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		for (MouseListener ml : topElement.getMouseListeners()){
-			e.setSource(topElement);
+//			e.setSource(topElement);
 			ml.mouseClicked(e);
 		}
 		
@@ -35,7 +35,7 @@ public class ElementEventPassThrough implements MouseListener {
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		for (MouseListener ml : topElement.getMouseListeners()){
-			e.setSource(topElement);
+//			e.setSource(topElement);
 			ml.mouseEntered(e);
 		}
 	}
@@ -43,7 +43,7 @@ public class ElementEventPassThrough implements MouseListener {
 	@Override
 	public void mouseExited(MouseEvent e) {
 		for (MouseListener ml : topElement.getMouseListeners()){
-			e.setSource(topElement);
+//			e.setSource(topElement);
 			ml.mouseExited(e);
 		}
 	}
@@ -51,7 +51,7 @@ public class ElementEventPassThrough implements MouseListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		for (MouseListener ml : topElement.getMouseListeners()){
-			e.setSource(topElement);
+//			e.setSource(topElement);
 			ml.mousePressed(e);
 		}
 	}
@@ -59,7 +59,7 @@ public class ElementEventPassThrough implements MouseListener {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		for (MouseListener ml : topElement.getMouseListeners()){
-			e.setSource(topElement);
+//			e.setSource(topElement);
 			ml.mouseReleased(e);
 		}
 	}
