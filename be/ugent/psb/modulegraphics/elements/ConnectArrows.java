@@ -18,7 +18,7 @@ import java.util.Set;
  */
 public class ConnectArrows extends Element{
 
-	private String DEFAULT = "default";
+	protected String DEFAULT_SET = "default";
 	
 	/**
 	 * Width of the bows in Units
@@ -71,8 +71,14 @@ public class ConnectArrows extends Element{
 	
 
 	public void addEdge(int from, int to){
-		addEdge(DEFAULT, from, to);
+		addEdge(DEFAULT_SET, from, to);
 	}
+	
+	public void addEdge(int from, int to, Color color){
+		//TODO private colors!!!
+		addEdge(DEFAULT_SET, from, to);
+	}
+	
 	
 	public void addEdge(String id, int from, int to){
 
@@ -286,6 +292,13 @@ public class ConnectArrows extends Element{
 	public void setBowWidth(int bowWidth) {
 		this.bowWidth = bowWidth;
 	}
-
-
+	
+	/**
+	 * Remove all edges and colors
+	 */
+	public void reset(){
+		edges = new HashMap<String, Set<Edge>>();
+		colorMap = new HashMap<String, Color>();
+	}
+	
 }
