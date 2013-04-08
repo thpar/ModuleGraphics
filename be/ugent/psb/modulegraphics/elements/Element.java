@@ -14,7 +14,7 @@ import java.util.List;
  * A part of the figure representing a specific element of the module (a list of gene names, 
  * the module expression matrix itself, a list of GO annotations, etc...).
  * Elements can have extra attributes like margins and alignments.
- * The can be drawn on a Graphics object or can be grouped and layouted by 
+ * They can be drawn on a Graphics object or can be grouped and layouted by 
  * a Canvas element.
  * 
  * @author thpar

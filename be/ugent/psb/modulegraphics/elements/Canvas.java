@@ -35,8 +35,9 @@ public class Canvas extends Element implements Iterable<Element>{
 	 * Default will be the NW (top left) corner.
 	 * 
 	 * @author thpar
-	 *
+	 * @deprecated the whole idea of canvas explosion might not have been a good one...
 	 */
+	@Deprecated
 	public enum Anchor{
 		NW, SW;
 	}
@@ -156,7 +157,9 @@ public class Canvas extends Element implements Iterable<Element>{
 	 * 
 	 * 
 	 * @param el
+	 * @deprecated explode? nah...
 	 */
+	@Deprecated
 	public void addExplode(Element el){
 		this.addExplode(el, Anchor.NW);
 	}
@@ -169,7 +172,9 @@ public class Canvas extends Element implements Iterable<Element>{
 	 * 
 	 * @param el element to add (and explode)
 	 * @param anc corner to use as starting point.
+	 * @deprecated nah... bad idea
 	 */
+	@Deprecated
 	public void addExplode(Element el, Anchor anc){
 		if (el instanceof Canvas){
 			Canvas can = (Canvas)el;
@@ -333,7 +338,7 @@ public class Canvas extends Element implements Iterable<Element>{
 	}
 	
 	/**
-	 * Iterating over the Canvas object gives you the lost of child 
+	 * Iterating over the Canvas object gives you the list of child 
 	 * elements
 	 */
 	@Override
