@@ -71,16 +71,15 @@ public class ConnectArrows extends Element{
 	
 
 	public void addEdge(int from, int to){
-		addEdge(DEFAULT_SET, from, to);
+		addEdge(DEFAULT_SET, from, to, null);
 	}
 	
 	public void addEdge(int from, int to, Color color){
-		//TODO private colors!!!
-		addEdge(DEFAULT_SET, from, to);
+		addEdge(DEFAULT_SET, from, to, color);
 	}
 	
 	
-	public void addEdge(String id, int from, int to){
+	public void addEdge(String id, int from, int to, Color color){
 
 		Set<Edge> edgeSet = edges.get(id);
 		if (edgeSet == null){
@@ -88,7 +87,7 @@ public class ConnectArrows extends Element{
 			this.edges.put(id, edgeSet);
 		}
 		
-		Edge edge = new Edge(from, to);
+		Edge edge = new Edge(from, to, color);
 		lowest = Math.max(edge.from, lowest);
 		lowest = Math.max(edge.to, lowest);
 		edgeSet.add(edge);
@@ -158,9 +157,14 @@ public class ConnectArrows extends Element{
 		}
 		for (Entry<String, Set<Edge>> entrySet : this.edges.entrySet()){
 			String id = entrySet.getKey();
+			//set a color to use on this edge set
 			g.setColor(setOrDefaultColor(id));
 			Set<Edge> edgeSet = entrySet.getValue();
-			for (Edge edge : edgeSet){			
+			for (Edge edge : edgeSet){
+				//override color if the edge has its own color defined
+				if (edge.color != null){
+					g.setColor(edge.color);
+				}
 				if (edge.from==edge.to){
 					drawLoop(g, edge, xOffset, yOffset, bowStep, bowUnits, 
 							arrowStep, extraOffsetUnits);

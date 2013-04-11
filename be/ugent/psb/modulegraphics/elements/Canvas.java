@@ -21,7 +21,6 @@ import be.ugent.psb.modulegraphics.clickable.ElementEventChildForwarder;
  */
 public class Canvas extends Element implements Iterable<Element>{
 	
-
 	private List<List<Element>> grid = new ArrayList<List<Element>>();
 	private List<Element> currentRow;
 	
@@ -30,17 +29,6 @@ public class Canvas extends Element implements Iterable<Element>{
 	private int currentX = 0;
 	private int currentY = 0;
 	
-	/**
-	 * Defines where to anchor a Canvas you want to explodeAdd to another canvas.
-	 * Default will be the NW (top left) corner.
-	 * 
-	 * @author thpar
-	 * @deprecated the whole idea of canvas explosion might not have been a good one...
-	 */
-	@Deprecated
-	public enum Anchor{
-		NW, SW;
-	}
 	
 	
 	public Canvas(){
@@ -148,62 +136,6 @@ public class Canvas extends Element implements Iterable<Element>{
 		currentX=0;
 		while (currentX<x){
 			add(new NullElement());
-		}
-	}
-	/**
-	 * Adds an element to this Canvas, while "exploding" the top level. Eg. if the 
-	 * highest level of the element is a Canvas in itself, it will add the first level of
-	 * elements while ignoring all Canvas settings. This is useful for constructing 
-	 * 
-	 * 
-	 * @param el
-	 * @deprecated explode? nah...
-	 */
-	@Deprecated
-	public void addExplode(Element el){
-		this.addExplode(el, Anchor.NW);
-	}
-	
-	/**
-	 * Adds an element to this Canvas, while "exploding" the top level. Eg. if the 
-	 * highest level of the element is a Canvas in itself, it will add the first level of
-	 * elements while ignoring all Canvas settings. This is useful for constructing 
-	 * 
-	 * 
-	 * @param el element to add (and explode)
-	 * @param anc corner to use as starting point.
-	 * @deprecated nah... bad idea
-	 */
-	@Deprecated
-	public void addExplode(Element el, Anchor anc){
-		if (el instanceof Canvas){
-			Canvas can = (Canvas)el;
-
-			int startX = currentX;
-			int startY = currentY;
-			
-			if (anc==Anchor.SW){
-				int rows = can.grid.size();
-				currentY-=rows;
-				currentRow = grid.get(currentY);
-			}
-			
-			for (Iterator<List<Element>> rit = can.rowIterator(); rit.hasNext();){
-				List<Element> row = rit.next();
-				for (Element newEl : row){
-					this.add(newEl);
-				}
-				if (rit.hasNext()){
-					this.newRow();
-					position(startX, currentY);
-				}
-			}
-			this.currentRow = grid.get(startY);
-			this.currentY = startY;
-			this.currentX = startX;
-
-		} else {
-			this.add(el);
 		}
 	}
 	
