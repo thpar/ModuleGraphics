@@ -54,6 +54,9 @@ public class ConnectArrows extends Element{
 
 	private int colorUsed = 0;
 	
+	private boolean fixedNumber = false;
+	private int fixedNumberCount = 0;
+	
 	public class Edge {
 		public int from;
 		public int to;
@@ -122,12 +125,20 @@ public class ConnectArrows extends Element{
 		
 		switch(dir){
 		case HORIZONTAL:
-			width = (lowest+1) * this.getUnit().width;
+			if (fixedNumber){
+				width = this.getUnit().width * fixedNumberCount;
+			} else {
+				width = (lowest+1) * this.getUnit().width;
+			}
 			height = bowWidth * this.getUnit().height; 
 			break;
 		case VERTICAL:
 			width = bowWidth * this.getUnit().width; 
-			height = (lowest+1) * this.getUnit().height;; 
+			if (fixedNumber){
+				height = this.getUnit().height * fixedNumberCount;
+			} else {
+				height = (lowest+1) * this.getUnit().height;; 				
+			}
 			break;
 		}
 		return new Dimension(width, height);
@@ -306,6 +317,14 @@ public class ConnectArrows extends Element{
 	public void reset(){
 		edges = new HashMap<String, Set<Edge>>();
 		colorMap = new HashMap<String, Color>();
+	}
+	
+	public void setFixedNumber(int number){
+		this.fixedNumber = true;
+		this.fixedNumberCount = number;
+	}
+	public void unsetFixedNumber(){
+		this.fixedNumber = false;
 	}
 	
 }

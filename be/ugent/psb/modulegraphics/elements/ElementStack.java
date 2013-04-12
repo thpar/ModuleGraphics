@@ -22,6 +22,8 @@ public class ElementStack extends Element implements Iterable<Element>{
 	
 	public void addElement(Element el){
 		this.stack.add(el);
+		this.addChildElement(el);
+		el.setParentElement(this);
 	}
 	
 	@Override
