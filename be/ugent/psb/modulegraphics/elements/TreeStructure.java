@@ -15,12 +15,12 @@ import java.awt.Graphics2D;
  */
 public class TreeStructure extends Element {
 
-	private ITreeNode rootNode;
+	private ITreeNode<?> rootNode;
 	private int xPointer;
 	private int xOffset;
 	private int yOffset;
 
-	public TreeStructure(ITreeNode rootNode){
+	public TreeStructure(ITreeNode<?> rootNode){
 		this.rootNode = rootNode;
 	}
 	

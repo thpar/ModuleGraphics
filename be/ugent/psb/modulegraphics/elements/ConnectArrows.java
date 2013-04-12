@@ -1,5 +1,6 @@
 package be.ugent.psb.modulegraphics.elements;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -142,6 +143,8 @@ public class ConnectArrows extends Element{
 		int bowStep=0;
 		double bowUnits = bowWidth;
 		double extraOffsetUnits = 0;
+		
+		g.setStroke(new BasicStroke());
 		
 		switch(dir){
 		case HORIZONTAL:

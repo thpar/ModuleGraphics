@@ -13,11 +13,11 @@ import java.awt.Graphics2D;
 public class Spacer extends Element {
 
 	
-	private Dimension dim;
+	protected Dimension dim;
 	/**
 	 * Set a little mark in the corner of the spacer, for debugging purposes.
 	 */
-	private boolean accent = false;
+	protected boolean accent = false;
 
 	public Spacer(){
 		dim = new Dimension();
