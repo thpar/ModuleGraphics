@@ -47,6 +47,19 @@ public class ConnectArrows extends Element{
 	private Map<String, Color> colorMap = new HashMap<String, Color>();
 	
 	/**
+	 * On some occasions, we want to make every edge a bit longer (to bridge a gap)
+	 * Gap expressed in pixels...
+	 */
+	private int gap = 0;
+	
+	public int getGap() {
+		return gap;
+	}
+
+	public void setGap(int gap) {
+		this.gap = gap;
+	}
+	/**
 	 * When drawing the arrows vertical, the arrow who reaches the lowest (so actually the highest
 	 * edge number)
 	 */
@@ -130,6 +143,7 @@ public class ConnectArrows extends Element{
 			} else {
 				width = (lowest+1) * this.getUnit().width;
 			}
+			width+=gap;
 			height = bowWidth * this.getUnit().height; 
 			break;
 		case VERTICAL:
@@ -139,6 +153,7 @@ public class ConnectArrows extends Element{
 			} else {
 				height = (lowest+1) * this.getUnit().height;; 				
 			}
+			height+=gap;
 			break;
 		}
 		return new Dimension(width, height);
@@ -251,14 +266,14 @@ public class ConnectArrows extends Element{
 		
 		switch(dir){
 		case HORIZONTAL:
-			width = arcArrowLength;
+			width = arcArrowLength + gap;
 			height = (int)Math.round(bowUnits * bowStep * 2);
 			startX = xOffset+start;
 			startY = yOffset+((int)Math.round(extraOffsetUnits*bowStep));
 			break;
 		case VERTICAL:
 			width = (int)Math.round(bowUnits * bowStep * 2);
-			height = arcArrowLength;
+			height = arcArrowLength + gap;
 			startX = xOffset+((int)Math.round(extraOffsetUnits*bowStep));
 			startY = yOffset+start;
 			break;

@@ -20,7 +20,7 @@ public class ElementStack extends Element implements Iterable<Element>{
 
 	List<Element> stack = new ArrayList<Element>();
 	
-	public void addElement(Element el){
+	public void add(Element el){
 		this.stack.add(el);
 		this.addChildElement(el);
 		el.setParentElement(this);
