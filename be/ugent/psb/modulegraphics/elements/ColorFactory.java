@@ -14,38 +14,47 @@ public class ColorFactory {
     
 
     /**
-     * Takes a color String in the format of RGB(FFFFFF) or a common color name
+     * First tries to convert the String into an integer. If this works, it's assumed that
+     * this encodes the RGB value.
+     * 
+     * If this throws an error: 
+     * Takes a color String in the format of RGB(FFFFFF), #FFFFFF or a common color name
      * (red, blue, gray, black, ...) (case insensitive) and returns the matching
-     * <code>Color</code>
+     * <code>Color</code>.
      * 
      * @param colorString
      *            string with RGB value or textual color. Will always return a
      *            color. If no matching color is found, returns gray.
      * @return the matching color object.
      */
-    public static Color decodeColor(String colorString) {
-        Color color;
-        try {
-            if (colorString.startsWith("#")) {
-                color = Color.decode(colorString);
-            } else if (colorString.startsWith("RGB")) {
-                // extract RGB value and create Color object
-                String rgb = colorString.substring(4, 10);
-                color = Color.decode("#" + rgb);
-            } else {
-                // if a color name is given, see if a Color constant is
-                // defined, otherwise use gray.
-                Field colorField = Color.class.getDeclaredField(colorString);
-                color = (Color) colorField.get(Color.class);
-            }
-        } catch (Exception e) {
-            // the method can fail is the text representation has no matching
-            // color constant of if the RGB value isn't hexa-decimal, decimal or
-            // octal.
-            // in that case: be gray.
-            color = Color.GRAY;
-        }
-        return color;
+	public static Color decodeColor(String colorString) {
+		Color color;
+		try {
+			try{
+				int colorInt = Integer.valueOf(colorString);
+				return new Color(colorInt);
+			} catch (NumberFormatException e){
+				if (colorString.startsWith("#")) {
+					color = Color.decode(colorString);
+				} else if (colorString.startsWith("RGB")) {
+					// extract RGB value and create Color object
+					String rgb = colorString.substring(4, 10);
+					color = Color.decode("#" + rgb);
+				} else {
+					// if a color name is given, see if a Color constant is
+					// defined, otherwise use gray.
+					Field colorField = Color.class.getDeclaredField(colorString);
+					color = (Color) colorField.get(Color.class);
+				}
+			}
+		} catch (Exception e) {
+			// the method can fail is the text representation has no matching
+			// color constant of if the RGB value isn't hexa-decimal, decimal or
+			// octal.
+			// in that case: be gray.
+			color = Color.GRAY;
+		}
+		return color;
     }
 
     /**
