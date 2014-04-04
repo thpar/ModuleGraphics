@@ -60,5 +60,8 @@ public class ElementStack extends Element implements Iterable<Element>{
 		return stack.iterator();
 	}
 	
+	public int size(){
+		return stack.size();
+	}
 	
 }
