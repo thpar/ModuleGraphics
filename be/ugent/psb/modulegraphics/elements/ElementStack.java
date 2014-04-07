@@ -20,6 +20,9 @@ public class ElementStack extends Element implements Iterable<Element>{
 
 	List<Element> stack = new ArrayList<Element>();
 	
+	int maxWidth = 0;
+	int maxHeight = 0;
+	
 	public void add(Element el){
 		this.stack.add(el);
 		this.addChildElement(el);
@@ -28,24 +31,87 @@ public class ElementStack extends Element implements Iterable<Element>{
 	
 	@Override
 	protected Dimension paintElement(Graphics2D g, int xOffset, int yOffset) {
-		int maxWidth = 0;
-		int maxHeight = 0;
+		Dimension rawDim = this.getRawDimension(g);
 		
 		for (Element el :stack){
-			el.paint(g, xOffset, yOffset);
+			XYPair xyAlign = this.alignElement(g, el);
+			el.paint(g, xOffset + xyAlign.x, yOffset + xyAlign.y);
 		}
 		
-		return new Dimension(maxWidth, maxHeight);
+		return rawDim;
 	}
-
+	
+	private class XYPair{
+		public int x;
+		public int y;
+		
+		public XYPair(int x, int y){
+			this.x = x;
+			this.y = y;
+		}
+	}
+	
+	/**
+	 * Calculate the xy offset to align the given element.
+	 * 
+	 * @param g
+	 * @param el
+	 * @return
+	 */
+	private XYPair alignElement(Graphics2D g, Element el) {	
+		int xAlign = 0;
+		int yAlign = 0;
+		Dimension elDim = el.getDimension(g);
+		switch(el.getAlignment()){
+		case TOP_LEFT:
+			xAlign = 0;
+			yAlign = 0;
+			break;
+		case TOP_RIGHT:
+			xAlign = maxWidth - elDim.width;
+			yAlign = 0;
+			break;
+		case TOP_CENTER:
+			xAlign = (maxWidth - elDim.width)/2;
+			yAlign = 0;
+			break;
+		case CENTER_LEFT:
+			xAlign = 0;
+			yAlign = (maxHeight - elDim.height)/2;
+			break;
+		case CENTER_RIGHT:
+			xAlign = maxWidth - elDim.width;
+			yAlign = (maxHeight - elDim.height)/2;
+			break;
+		case CENTER:
+			xAlign = (maxWidth - elDim.width)/2;
+			yAlign = (maxHeight - elDim.height)/2;
+			break;
+		case BOTTOM_LEFT:
+			xAlign = 0;
+			yAlign = maxHeight - elDim.height;
+			break;
+		case BOTTOM_RIGHT:
+			xAlign = maxWidth - elDim.width;
+			yAlign = maxHeight - elDim.height;
+			break;
+		case BOTTOM_CENTER:
+			xAlign = (maxWidth - elDim.width)/2;
+			yAlign = maxHeight - elDim.height;
+			break;
+		}
+		
+		return new XYPair(xAlign,yAlign);
+	}
+	
 	/**
 	 * The raw dimensions of this stack. This includes the set margins of the 
 	 * sub elements.
 	 */
 	@Override
 	protected Dimension getRawDimension(Graphics2D g) {
-		int maxWidth = 0;
-		int maxHeight = 0;
+		maxWidth = 0;
+		maxHeight = 0;
 		
 		for (Element el : stack){
 			Dimension dim = el.getDimension(g);
