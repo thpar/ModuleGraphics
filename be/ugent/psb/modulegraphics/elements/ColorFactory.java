@@ -52,6 +52,7 @@ public class ColorFactory {
 			// color constant of if the RGB value isn't hexa-decimal, decimal or
 			// octal.
 			// in that case: be gray.
+			System.err.println("Falling back to gray. Could not decode color: " +colorString);
 			color = Color.GRAY;
 		}
 		return color;
