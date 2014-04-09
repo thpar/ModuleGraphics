@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 
@@ -47,7 +48,11 @@ public class CanvasTest implements MouseListener {
 		frame.setVisible(true);
 		
 		CanvasFigure fc = new CanvasFigure(c, "test");
-		fc.writeToEPS();
+		try {
+			fc.writeToEPS();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 
