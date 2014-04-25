@@ -110,6 +110,7 @@ public class Label extends Element {
 
 		TextLayout layout = new TextLayout(labelString, getDerivedFont(), frc);
 		Rectangle2D dim = layout.getBounds();
+		
 				
 		int width  = (int)Math.round(Math.floor(dim.getWidth())+1);
 		int height = (int)Math.round(Math.floor(dim.getHeight())+1);
