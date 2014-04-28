@@ -2,7 +2,11 @@ package be.ugent.psb.modulegraphics.elements;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +24,7 @@ public class Gradient extends Element{
 	private Colorizer<Double> c;
 
 	private List<CheckPoint> checkPoints = new ArrayList<CheckPoint>();
-	
+	private Font font = new Font("SansSerif", Font.PLAIN, 12);
 	private int width = 10;
 	private int height = 1;
 	
@@ -116,8 +120,19 @@ public class Gradient extends Element{
 				value+=valueStep;
 			}
 			
+			FontRenderContext frc = g.getFontRenderContext();
+			
+			
+			g.setPaint(Color.BLACK);
 			if (paintLabels){
-				//TODO paint labels
+				for (CheckPoint checkPoint : checkPoints){
+					String label = checkPoint.label;
+					TextLayout layout = new TextLayout(label, this.font, frc);
+					Rectangle2D layoutBounds = layout.getBounds();
+					double fontWidth = layoutBounds.getWidth();
+					double fontHeight = layoutBounds.getHeight();
+					g.drawString(label, checkPoint.pixelLocation - (int)fontWidth/2, this.getUnit().height*height + (int)fontHeight+5);
+				}
 			}
 		}
 		
@@ -132,7 +147,7 @@ public class Gradient extends Element{
 			dataChanged = false;
 			translate();
 		}
-		return new Dimension(width * this.getUnit().width, height * this.getUnit().height);
+		return new Dimension(width * this.getUnit().width, height * this.getUnit().height+1);
 	}
 
 	public boolean isPaintLabels() {
