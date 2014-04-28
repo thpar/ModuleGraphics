@@ -43,9 +43,11 @@ public class CanvasLabel extends JLabel{
 				}
 			}
 			this.addMouseListener(new ElementEventPassThrough(canvas));
-		} 
-		this.setSize();
-		this.repaint();
+		}
+		if (this.getGraphics() !=null){
+			this.setSize();
+			this.repaint();			
+		}
 	}
 
 	public void setBackground(Color background) {
@@ -55,6 +57,7 @@ public class CanvasLabel extends JLabel{
 
 	@Override
 	protected void paintComponent(Graphics g) {
+		this.setSize();
 		if (canvas!=null){
 			g.setColor(background );
 			g.fillRect(0, 0, canvas.getDimension(g).width, canvas.getDimension(g).height);
