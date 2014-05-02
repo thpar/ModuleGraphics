@@ -11,10 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Element that draws a continuous gradient over a given array of
- * checkpoints, based on a {@link Colorizer<Double>}
- * 
- * At least a start and end point should be given.
+ * Element that draws a continuous gradient based on a {@link Colorizer<Double>}
  * 
  * @author Thomas Van Parys
  *
@@ -23,119 +20,67 @@ public class Gradient extends Element{
 
 	private Colorizer<Double> c;
 
-	private List<CheckPoint> checkPoints = new ArrayList<CheckPoint>();
-	private Font font = new Font("SansSerif", Font.PLAIN, 12);
 	private int width = 10;
 	private int height = 1;
 	
-	private boolean dataChanged = false;
-
-	private boolean paintLabels = true;
+	private double min;
+	private double max;
+	
+	
+	public Gradient(double min, double max, Colorizer<Double> c){
+		this.c = c;
+		this.min = min;
+		this.max = max;
+	}
 	
 	/**
-	 * Value increment per pixel
+	 * 
+	 * @return width (in units)
 	 */
-	private double valueStep;
-	
-	private class CheckPoint{
-		public String label;
-		public double value;
-		public int pixelLocation;
-
-		public CheckPoint(String label, double value){
-			this.label = label;
-			this.value = value;
-		}
-	}
-	
-	public Gradient(Colorizer<Double> c){
-		this.c = c;
-	}
-	
 	public int getWidth() {
 		return width;
 	}
 
-
+	/**
+	 * 
+	 * @return height (in units)
+	 */
 	public int getHeight() {
 		return height;
 	}
 
+	/**
+	 * Set width (in units)
+	 * @param width width (in units)
+	 */
 	public void setWidth(int width) {
 		this.width = width;
-		this.dataChanged = true;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
-		this.dataChanged = true;
-	}
-
-	public void addCheckPoint(String label, double value){
-		this.checkPoints.add(new CheckPoint(label, value));
-		this.dataChanged = true;
 	}
 	
 	/**
-	 * Maps the checkpoints on their pixel location.
-	 * 
-	 * @return the increment in value for each pixel
+	 * Set height (in units)
+	 * @param height height (in units)
 	 */
-	private void translate(){
-		int pixelWidth = this.width * this.getUnit().width;
-		CheckPoint firstPoint = this.checkPoints.get(0);
-		CheckPoint lastPoint = this.checkPoints.get(this.checkPoints.size()-1);
-		
-		firstPoint.pixelLocation = 0;
-		lastPoint.pixelLocation = pixelWidth;
-		
-		double valueRange = lastPoint.value - firstPoint.value;
-				
-		for (int i = 1; i<checkPoints.size()-1; i++){
-			int lastLoc = checkPoints.get(i-1).pixelLocation;
-			double lastValue = checkPoints.get(i-1).value;
-			
-			double thisValue = checkPoints.get(i).value;
-			
-			double pixels = Math.abs(Math.abs(thisValue) - Math.abs(lastValue))/valueRange * pixelWidth;
-			checkPoints.get(i).pixelLocation =  lastLoc + (int)Math.round(pixels);
-		}
-		
-		this.valueStep = valueRange/pixelWidth;
+	public void setHeight(int height) {
+		this.height = height;
 	}
+
+	
 
 	@Override
 	protected Dimension paintElement(Graphics2D g, int xOffset, int yOffset) {
-		if (dataChanged && checkPoints.size()>=2){
-			dataChanged = false;
-			translate();
-		}
 		
-		if (checkPoints.size()>=2){
-			int pixelWidth = this.width * this.getUnit().width;
-			double value = checkPoints.get(0).value;
-			for (int i=0; i<=pixelWidth; i++){
-				g.setColor(c.getColor(value));
-				g.drawLine(xOffset+i, yOffset, xOffset+i, yOffset+this.getUnit().height*height);
-				value+=valueStep;
-			}
-			
-			FontRenderContext frc = g.getFontRenderContext();
-			
-			
-			g.setPaint(Color.BLACK);
-			if (paintLabels){
-				for (CheckPoint checkPoint : checkPoints){
-					String label = checkPoint.label;
-					TextLayout layout = new TextLayout(label, this.font, frc);
-					Rectangle2D layoutBounds = layout.getBounds();
-					double fontWidth = layoutBounds.getWidth();
-					double fontHeight = layoutBounds.getHeight();
-					g.drawString(label, checkPoint.pixelLocation - (int)fontWidth/2, this.getUnit().height*height + (int)fontHeight+5);
-				}
-			}
-		}
+		int pixelWidth = this.width * this.getUnit().width;
+		double value = min;
+		double range = max - min;
+		double valueStep = range/pixelWidth;
 		
+		for (int i=0; i<=pixelWidth; i++){
+			g.setColor(c.getColor(value));
+			g.drawLine(xOffset+i, yOffset, xOffset+i, yOffset+this.getUnit().height*height);
+			value+=valueStep;
+		}
+
 		g.setPaint(Color.BLACK);
 		g.drawRect(xOffset, yOffset, width * this.getUnit().width, height * this.getUnit().height);
 		return this.getRawDimension(g);
@@ -143,21 +88,8 @@ public class Gradient extends Element{
 
 	@Override
 	protected Dimension getRawDimension(Graphics2D g) {
-		if (dataChanged && checkPoints.size()>=2){
-			dataChanged = false;
-			translate();
-		}
-		return new Dimension(width * this.getUnit().width, height * this.getUnit().height+1);
+		return new Dimension(width * this.getUnit().width, height * this.getUnit().height);
 	}
 
-	public boolean isPaintLabels() {
-		return paintLabels;
-	}
-
-	public void setPaintLabels(boolean paintLabels) {
-		this.paintLabels = paintLabels;
-	}
-	
-	
 	
 }
