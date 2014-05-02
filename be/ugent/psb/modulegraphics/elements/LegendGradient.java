@@ -17,8 +17,12 @@ public class LegendGradient extends Gradient {
 	private CheckPoint maxLabel;
 	
 	private Font font = new Font("SansSerif", Font.PLAIN, 12);
+	private Font titleFont = new Font("SansSerif", Font.BOLD, 14);
 	private int minMargin = 0;
 	private int maxMargin = 0;
+	
+	private String title = null;
+	private int titleMarginBottom = 5;
 	
 	public LegendGradient(double min, double max, Colorizer<Double> c) {
 		super(min, max, c);
@@ -48,7 +52,16 @@ public class LegendGradient extends Gradient {
 	
 	@Override
 	protected Dimension paintElement(Graphics2D g, int xOffset, int yOffset) {
+		
+		if (title!=null){
+			yOffset+=this.getUnit().height;
+			g.setFont(titleFont);
+			g.drawString(title, xOffset, yOffset);
+			yOffset+=titleMarginBottom;
+		}
+		
 		super.paintElement(g, xOffset + minMargin, yOffset);
+		
 		g.setFont(font);
 		calcFontMargins(g);
 		
@@ -61,12 +74,22 @@ public class LegendGradient extends Gradient {
 
 	@Override
 	protected Dimension getRawDimension(Graphics2D g) {
-		Dimension gradDim = super.getRawDimension(g);
+		int unitWidth = this.getWidth();
+		int unitHeight = this.getHeight() +1;
+		
+		int extraHeight = 0;
+		if (title!=null){
+			unitHeight++;
+			extraHeight = titleMarginBottom;
+		}
+		
 		calcFontMargins(g);
 		
-		gradDim.setSize(gradDim.width + minMargin + maxMargin, gradDim.height + this.getUnit().height);
 		
-		return gradDim;
+		Dimension rawDim = new Dimension(unitWidth * this.getUnit().width + minMargin + maxMargin,
+				unitHeight * this.getUnit().height + extraHeight);
+		
+		return rawDim;
 	}
 	
 	private void calcFontMargins(Graphics2D g){
@@ -139,4 +162,14 @@ public class LegendGradient extends Gradient {
 	public void setMaxLabel(String label){
 		maxLabel.label = label;
 	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	
 }
