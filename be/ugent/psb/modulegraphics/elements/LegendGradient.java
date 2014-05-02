@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +22,8 @@ public class LegendGradient extends Gradient {
 	
 	public LegendGradient(double min, double max, Colorizer<Double> c) {
 		super(min, max, c);
-		minLabel = addLabel(String.valueOf(min), min);
-		maxLabel = addLabel(String.valueOf(max), max);
+		minLabel = addLabel(min);
+		maxLabel = addLabel(max);
 	}
 	
 	
@@ -48,6 +49,7 @@ public class LegendGradient extends Gradient {
 	@Override
 	protected Dimension paintElement(Graphics2D g, int xOffset, int yOffset) {
 		super.paintElement(g, xOffset + minMargin, yOffset);
+		g.setFont(font);
 		calcFontMargins(g);
 		
 		for (CheckPoint cp : checkPoints){
@@ -100,7 +102,8 @@ public class LegendGradient extends Gradient {
 	 * @return the added {@link CheckPoint}
 	 */
 	public CheckPoint addLabel(double value){
-		return addLabel(String.valueOf(value), value);
+		DecimalFormat df2 = new DecimalFormat("###.##");
+		return addLabel(String.valueOf(df2.format(value)), value);
 	}
 	
 	private void recalcPixelLocations(){
