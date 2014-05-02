@@ -2,13 +2,7 @@ package be.ugent.psb.modulegraphics.elements;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextLayout;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Element that draws a continuous gradient based on a {@link Colorizer<Double>}
@@ -23,14 +17,21 @@ public class Gradient extends Element{
 	private int width = 10;
 	private int height = 1;
 	
-	private double min;
-	private double max;
+	protected double min;
+	protected double max;
+
+	protected int pixelWidth;
+
+	protected double range;
+
+	private double valueStep;
 	
 	
 	public Gradient(double min, double max, Colorizer<Double> c){
 		this.c = c;
 		this.min = min;
 		this.max = max;
+		calc();
 	}
 	
 	/**
@@ -55,6 +56,7 @@ public class Gradient extends Element{
 	 */
 	public void setWidth(int width) {
 		this.width = width;
+		calc();
 	}
 	
 	/**
@@ -63,18 +65,14 @@ public class Gradient extends Element{
 	 */
 	public void setHeight(int height) {
 		this.height = height;
+		calc();
 	}
 
 	
 
 	@Override
 	protected Dimension paintElement(Graphics2D g, int xOffset, int yOffset) {
-		
-		int pixelWidth = this.width * this.getUnit().width;
 		double value = min;
-		double range = max - min;
-		double valueStep = range/pixelWidth;
-		
 		for (int i=0; i<=pixelWidth; i++){
 			g.setColor(c.getColor(value));
 			g.drawLine(xOffset+i, yOffset, xOffset+i, yOffset+this.getUnit().height*height);
@@ -91,5 +89,9 @@ public class Gradient extends Element{
 		return new Dimension(width * this.getUnit().width, height * this.getUnit().height);
 	}
 
-	
+	protected void calc(){
+		this.pixelWidth = this.width * this.getUnit().width;
+		this.range = max - min;
+		this.valueStep = range/pixelWidth;
+	}
 }
