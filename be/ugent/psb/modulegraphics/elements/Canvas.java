@@ -42,12 +42,12 @@ public class Canvas extends Element implements Iterable<Element>{
 	/**
 	 * A list of maximum heights for rows
 	 */
-	private List<Integer> rowMax;
+	private List<Integer> rowMax = new ArrayList<Integer>();
 	
 	/**
 	 * A list of maximum widths for columns
 	 */
-	private List<Integer> colMax;
+	private List<Integer> colMax = new ArrayList<Integer>();
 	
 	private int horizontalSpacing = 0;
 	private int verticalSpacing = 0;
@@ -57,6 +57,7 @@ public class Canvas extends Element implements Iterable<Element>{
 	protected Dimension getRawDimension(Graphics2D g) {
 		calcMaxDimensions(g);		
 		int gridWidth = 0;
+		
 		for (int width : colMax){
 			gridWidth+=width;
 		}
@@ -213,23 +214,26 @@ public class Canvas extends Element implements Iterable<Element>{
 	 * Check for each column and each row its maximum height or width.
 	 */
 	private void calcMaxDimensions(Graphics2D g){
-		rowMax = new ArrayList<Integer>();
-		colMax = new ArrayList<Integer>();
+		List<Integer> calcRowMax = new ArrayList<Integer>();
+		List<Integer> calcColMax = new ArrayList<Integer>();
 		
 		for (List<Element> row : grid){
 			int colCounter = 0;
 			int rowHeight = 0;
 			for (Element el : row){
-				if (colCounter >= colMax.size()){
-					colMax.add(el.getDimension(g).width);
+				if (colCounter >= calcColMax.size()){
+					calcColMax.add(el.getDimension(g).width);
 				} else{
-					colMax.set(colCounter, Math.max(colMax.get(colCounter), el.getDimension(g).width));
+					calcColMax.set(colCounter, Math.max(calcColMax.get(colCounter), el.getDimension(g).width));
 				}
 				rowHeight = Math.max(rowHeight, el.getDimension(g).height);
 				colCounter++;
 			}
-			rowMax.add(rowHeight);
+			calcRowMax.add(rowHeight);
 		}
+		
+		rowMax = calcRowMax;
+		colMax = calcColMax;
 	}
 
 	/**
