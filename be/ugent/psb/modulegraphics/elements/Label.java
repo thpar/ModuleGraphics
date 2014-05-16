@@ -9,7 +9,6 @@ import java.awt.Graphics2D;
 
 /**
  * Element that draws a single String under any given angle.
- * The label is rendered in given font, within a box of height 1 unit and a width to fit the entire string (before rotation).
  * 
  * @author thpar
  *
@@ -24,6 +23,8 @@ public class Label extends Element {
 	private Color highlightedColor = Color.RED;
 	private Font normalFont;
 	
+	private int boxHeight;
+	
 	private Color backgroundColor;
 	
 	
@@ -36,8 +37,21 @@ public class Label extends Element {
 	public Label(String text){
 		this.labelString = text;
 		setFont(new Font("SansSerif", Font.PLAIN, 12));
+		setBoxHeight(this.getUnit().height);
 	}
 	
+	/**
+	 * Set the box height of the label. By default, this is 1 unit and this height is maintained 
+	 * in possible rotations. 
+	 * 
+	 * For vertical labels, it might be desirable to set the box height to the unit width.
+	 * 
+	 * @param height
+	 */
+	public void setBoxHeight(int height) {
+		this.boxHeight = height;
+	}
+
 	public Label(String text, Font font){
 		this.labelString = text;
 		setFont(font);
@@ -105,11 +119,10 @@ public class Label extends Element {
 		FontMetrics metrics = g.getFontMetrics(font);
 		
 		int adv = metrics.stringWidth(this.labelString);
-		int unitHeight = this.getUnit().height;
 		
 		double a = getRotationAngle();
-		int rotatedWidth = (int)Math.ceil(Math.abs(unitHeight*Math.sin(a)) + Math.abs(adv*Math.cos(a)));
-		int rotatedHeight = (int)Math.ceil(Math.abs(adv*Math.sin(a)) + Math.abs(unitHeight*Math.cos(a)));
+		int rotatedWidth = (int)Math.ceil(Math.abs(boxHeight*Math.sin(a)) + Math.abs(adv*Math.cos(a)));
+		int rotatedHeight = (int)Math.ceil(Math.abs(adv*Math.sin(a)) + Math.abs(boxHeight*Math.cos(a)));
 		
 		Dimension rotatedDim = new Dimension(rotatedWidth, rotatedHeight);
 		return rotatedDim;
@@ -125,9 +138,6 @@ public class Label extends Element {
 		int adv = metrics.stringWidth(this.labelString);
 		int dsc = metrics.getMaxDescent();
 		int textHeight = metrics.getHeight();
-		int unitHeight = this.getUnit().height;
-		
-		int bottomPadding = 2;
 		
 		double rotation = getRotationAngle();
 		
@@ -140,7 +150,7 @@ public class Label extends Element {
 		if (this.backgroundColor!=null){
 			Color previousColor = g.getColor();
 			g.setColor(this.backgroundColor);
-			g.fillRect(0, unitHeight-bottomPadding-textHeight, adv,	textHeight);
+			g.fillRect(0, boxHeight-textHeight, adv,	textHeight);
 			g.setColor(previousColor);
 		}
 		
@@ -152,7 +162,7 @@ public class Label extends Element {
 		}
 
 
-		g.drawString(labelString, 0, unitHeight-bottomPadding-dsc);
+		g.drawString(labelString, 0, boxHeight-dsc);
 		
 		g.rotate(-rotation);
 		g.translate(-xOffset, -yTranslate);

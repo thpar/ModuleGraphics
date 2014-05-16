@@ -234,6 +234,7 @@ public class LabelList extends Element{
 		case STRAIGHT:
 			switch(dir){
 			case LEFT_TO_RIGHT:
+				label.setBoxHeight(this.getUnit().width);
 				switch(rAngle){
 				case LEFT:
 					label.setAngle(-Math.PI/2);				
@@ -244,6 +245,7 @@ public class LabelList extends Element{
 				}
 				break;
 			case TOP_TO_BOTTOM:
+				label.setBoxHeight(this.getUnit().height);
 				label.setAngle(0);
 				break;
 			}
