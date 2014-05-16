@@ -55,8 +55,10 @@ public class LabelTest {
 		p.setAlignment(Alignment.BOTTOM_RIGHT);
 		
 		c.add(o);
-		c.newRow();
 		c.add(p);
+		c.newRow();
+		
+		
 		
 		JFrame frame = new JFrame("Test Label");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

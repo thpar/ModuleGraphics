@@ -3,15 +3,13 @@ package be.ugent.psb.modulegraphics.elements;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextLayout;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 
 
 /**
  * Element that draws a single String under any given angle.
+ * The label is rendered in given font, within a box of height 1 unit and a width to fit the entire string (before rotation).
  * 
  * @author thpar
  *
@@ -56,13 +54,6 @@ public class Label extends Element {
 	}
 
 
-
-	public Font getDerivedFont() {
-		AffineTransform tx = new AffineTransform();
-		tx.rotate(this.getRotationAngle());
-		return font.deriveFont(tx);
-	}
-
 	private double getRotationAngle() {
 		if (angle< -Math.PI/2) return angle+Math.PI;
 		else if (angle> Math.PI/2) return angle-Math.PI;
@@ -95,7 +86,11 @@ public class Label extends Element {
 	}
 
 
-
+	/**
+	 * Set the font of this label. Default font size is 12px. When changing font size, take
+	 * into account that the label height is fixed on 1 unit.
+	 * @param font
+	 */
 	public void setFont(Font font) {
 		this.font = font;
 	}
@@ -106,48 +101,63 @@ public class Label extends Element {
 	public Dimension getRawDimension(Graphics2D g) {
 		if (labelString==null || labelString.isEmpty()) return new Dimension(0,0);
 		
-		FontRenderContext frc = g.getFontRenderContext();
 
-		TextLayout layout = new TextLayout(labelString, getDerivedFont(), frc);
-		Rectangle2D dim = layout.getBounds();
+		FontMetrics metrics = g.getFontMetrics(font);
 		
-				
-		int width  = (int)Math.round(Math.floor(dim.getWidth())+1);
-		int height = (int)Math.round(Math.floor(dim.getHeight())+1);
-		return new Dimension(width, height);
+		int adv = metrics.stringWidth(this.labelString);
+		int unitHeight = this.getUnit().height;
+		
+		double a = getRotationAngle();
+		int rotatedWidth = (int)Math.ceil(Math.abs(unitHeight*Math.sin(a)) + Math.abs(adv*Math.cos(a)));
+		int rotatedHeight = (int)Math.ceil(Math.abs(adv*Math.sin(a)) + Math.abs(unitHeight*Math.cos(a)));
+		
+		Dimension rotatedDim = new Dimension(rotatedWidth, rotatedHeight);
+		return rotatedDim;
 	}
 
 	@Override
 	public Dimension paintElement(Graphics2D g, int xOffset, int yOffset) {
 		if (labelString==null || labelString.isEmpty()) return new Dimension(0,0);
 		
-		Dimension bounds = getDimension(g);
+		FontMetrics metrics = g.getFontMetrics(font);
+
 		
-		FontRenderContext frc = g.getFontRenderContext();
-		Font df = getDerivedFont();
+		int adv = metrics.stringWidth(this.labelString);
+		int dsc = metrics.getMaxDescent();
+		int textHeight = metrics.getHeight();
+		int unitHeight = this.getUnit().height;
 		
-		TextLayout layout = new TextLayout(labelString, df, frc);
-		Rectangle2D layoutBounds = layout.getBounds();
+		int bottomPadding = 2;
 		
+		double rotation = getRotationAngle();
+		
+		double yTranslate = yOffset + Math.abs(adv*Math.sin(rotation));
+		
+		g.translate(xOffset, yTranslate);
+		g.rotate(rotation);
+		
+		//put colored marker on the text (not the whole element)
 		if (this.backgroundColor!=null){
-			Color cBak = g.getColor();
+			Color previousColor = g.getColor();
 			g.setColor(this.backgroundColor);
-			g.fillRect(xOffset, yOffset, bounds.width, bounds.height);
-			g.setColor(cBak);
+			g.fillRect(0, unitHeight-bottomPadding-textHeight, adv,	textHeight);
+			g.setColor(previousColor);
 		}
 		
-		g.setFont(df);
+		g.setFont(font);
 		if (highlighted){
 			g.setColor(highlightedColor);
 		} else{
 			g.setColor(color);
 		}
 
-		
-		layout.draw(g, (float)(xOffset - layoutBounds.getX()), (float)(yOffset - layoutBounds.getY()));
 
+		g.drawString(labelString, 0, unitHeight-bottomPadding-dsc);
 		
-		return bounds;
+		g.rotate(-rotation);
+		g.translate(-xOffset, -yTranslate);
+				
+		return getRawDimension(g);
 	}
 
 	public String getString(){
