@@ -22,7 +22,7 @@ public class LegendGradient extends Gradient {
 	private int maxMargin = 0;
 	
 	private String title = null;
-	private int titleMarginBottom = 5;
+	private int titleMarginBottom = 10;
 	
 	public LegendGradient(double min, double max, Colorizer<Double> c) {
 		super(min, max, c);
@@ -53,20 +53,36 @@ public class LegendGradient extends Gradient {
 	@Override
 	protected Dimension paintElement(Graphics2D g, int xOffset, int yOffset) {
 		
+		//paint title
+		FontRenderContext frc = g.getFontRenderContext();
 		if (title!=null){
 			yOffset+=this.getUnit().height;
 			g.setFont(titleFont);
-			g.drawString(title, xOffset, yOffset);
+			TextLayout tl = new TextLayout(title, titleFont, frc);
+			double titleWidth = tl.getBounds().getWidth();
+			double legendWidth = this.getRawDimension(g).getWidth();
+			
+			int titleOffset = (int)(legendWidth - titleWidth)/2;
+			
+			g.drawString(title, xOffset+titleOffset, yOffset);
 			yOffset+=titleMarginBottom;
 		}
 		
-		super.paintElement(g, xOffset + minMargin, yOffset);
 		
-		g.setFont(font);
 		calcFontMargins(g);
 		
+		//paint gradient
+		xOffset+=minMargin;
+		super.paintElement(g, xOffset, yOffset);
+		
+		//paint labels
+		g.setFont(font);
+		yOffset+= this.getUnit().height*(this.getHeight()+1);
+		
 		for (CheckPoint cp : checkPoints){
-			g.drawString(cp.label, xOffset+cp.pixelLocation, yOffset+(this.getUnit().height*(this.getHeight()+1)));
+			TextLayout tl = new TextLayout(cp.label, font, frc);
+			int halfLabelWidth = (int)tl.getBounds().getWidth()/2;
+			g.drawString(cp.label, xOffset+cp.pixelLocation-halfLabelWidth, yOffset);
 		}
 		
 		return this.getRawDimension(g);
