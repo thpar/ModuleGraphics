@@ -5,8 +5,6 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Spliterator;
-import java.util.function.Consumer;
 
 
 /**
@@ -132,16 +130,6 @@ public class ElementStack extends Element implements Iterable<Element>{
 		return stack.size();
 	}
 
-	@Override
-	public void forEach(Consumer<? super Element> action) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Spliterator<Element> spliterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 	
 }
