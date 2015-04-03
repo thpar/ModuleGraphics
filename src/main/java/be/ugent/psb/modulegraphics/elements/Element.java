@@ -3,7 +3,6 @@ package be.ugent.psb.modulegraphics.elements;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseListener;
@@ -63,7 +62,7 @@ public abstract class Element{
 	 * @param yOffset
 	 * @return
 	 */
-	public Dimension paint(Graphics g, int xOffset, int yOffset) {
+	public Dimension paint(Graphics2D g, int xOffset, int yOffset) {
 		this.paintedAtTopLeft = new Point(xOffset+leftMargin, yOffset+topMargin);
 		Dimension dim = paintElement((Graphics2D) g,xOffset+leftMargin, yOffset+topMargin);
 		Dimension realDim = new Dimension(dim.width+leftMargin+rightMargin, dim.height+topMargin+bottomMargin);
@@ -83,7 +82,7 @@ public abstract class Element{
 	 * @param g
 	 * @return
 	 */
-	public Dimension paint(Graphics g){
+	public Dimension paint(Graphics2D g){
 		return paint(g, 0, 0);
 	}
 	
@@ -102,7 +101,7 @@ public abstract class Element{
 	 * 
 	 * @return the dimensions of the object, including margins.
 	 */
-	public Dimension getDimension(Graphics g){
+	public Dimension getDimension(Graphics2D g){
 		Dimension dim = this.getRawDimension((Graphics2D) g);
 		paintedWidth = dim.width;
 		paintedHeight = dim.height;

@@ -3,6 +3,7 @@ package be.ugent.psb.modulegraphics.display;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
@@ -57,14 +58,15 @@ public class CanvasLabel extends JLabel{
 
 	@Override
 	protected void paintComponent(Graphics g) {
+		Graphics2D g2 = (Graphics2D)g;		
 		this.setSize();
 		if (canvas!=null){
-			g.setColor(background );
-			g.fillRect(0, 0, canvas.getDimension(g).width, canvas.getDimension(g).height);
-			canvas.paint(g, 0, 0);
+			g2.setColor(background );
+			g2.fillRect(0, 0, canvas.getDimension(g2).width, canvas.getDimension(g2).height);
+			canvas.paint(g2, 0, 0);
 		} else {
 			if (splash!=null){
-				splash.paintIcon(this, g, 0, 0);
+				splash.paintIcon(this, g2, 0, 0);
 			}
 		}
 	}
@@ -85,6 +87,11 @@ public class CanvasLabel extends JLabel{
 		} else {
 			this.setPreferredSize(new Dimension(250,200));
 		}
+	}
+	
+	
+	public Graphics2D getGraphics() {
+		return (Graphics2D)super.getGraphics();
 	}
 	
 	
