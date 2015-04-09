@@ -19,6 +19,8 @@ public class CanvasLabel extends JLabel{
 	private Color background = Color.WHITE;
 	private ImageIcon splash;
 	
+	private double zoomLevel = 1;
+	
 	public CanvasLabel(){
 	}
 	public CanvasLabel(Canvas canvas){
@@ -58,12 +60,14 @@ public class CanvasLabel extends JLabel{
 
 	@Override
 	protected void paintComponent(Graphics g) {
-		Graphics2D g2 = (Graphics2D)g;		
+		Graphics2D g2 = (Graphics2D)g;
 		this.setSize();
 		if (canvas!=null){
-			g2.setColor(background );
+			g2.setColor(background);
+			g2.scale(zoomLevel, zoomLevel);
 			g2.fillRect(0, 0, canvas.getDimension(g2).width, canvas.getDimension(g2).height);
 			canvas.paint(g2, 0, 0);
+			g2.scale(1/zoomLevel, 1/zoomLevel);
 		} else {
 			if (splash!=null){
 				splash.paintIcon(this, g2, 0, 0);
@@ -79,20 +83,33 @@ public class CanvasLabel extends JLabel{
 		this.splash = splash;
 	}
 	
-	private void setSize(){
+	protected void setSize(){
 		if (canvas!=null){
-			this.setPreferredSize(canvas.getDimension(this.getGraphics()));
+			Graphics2D g2 = this.getGraphics();
+			double width  = canvas.getDimension(g2).getWidth()*this.zoomLevel;
+			double height = canvas.getDimension(g2).getHeight()*this.zoomLevel;
+			this.setPreferredSize(new Dimension((int)Math.round(width), (int)Math.round(height)));
 		} else if (splash!=null){
 			this.setPreferredSize(new Dimension(splash.getIconWidth(), splash.getIconHeight()));					
 		} else {
 			this.setPreferredSize(new Dimension(250,200));
 		}
+		this.revalidate();
 	}
 	
 	
 	public Graphics2D getGraphics() {
 		return (Graphics2D)super.getGraphics();
 	}
+	
+	public double getZoomLevel() {
+		return zoomLevel;
+	}
+	public void setZoomLevel(double zoomLevel) {
+		this.zoomLevel = zoomLevel;
+		this.setSize();
+	}
+	
 	
 	
 }
