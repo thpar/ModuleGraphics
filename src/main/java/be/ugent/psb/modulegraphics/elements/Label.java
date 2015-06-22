@@ -32,7 +32,7 @@ import java.awt.Graphics2D;
 /**
  * Element that draws a single String under any given angle.
  * 
- * @author thpar
+ * @author Thomas Van Parys
  *
  */
 public class Label extends Element {

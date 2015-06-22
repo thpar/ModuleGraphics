@@ -38,7 +38,7 @@ import be.ugent.psb.modulegraphics.clickable.ElementEventChildForwarder;
  * consecutive way. A new row is started when the newRow() method is explicitly called.
  * Each column and each row are stretched to fit their largest element (margins included).
  * 
- * @author thpar
+ * @author Thomas Van Parys
  *
  */
 public class Canvas extends Element implements Iterable<Element>{

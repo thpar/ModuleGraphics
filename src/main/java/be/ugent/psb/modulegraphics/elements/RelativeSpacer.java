@@ -29,7 +29,7 @@ import java.awt.Graphics2D;
  * {@link Element} to keep an empty spot on the {@link Canvas}. It will follow the height and/or
  * width of another {@link Element}.
  * 
- * @author thpar
+ * @author Thomas Van Parys
  *
  */
 public class RelativeSpacer extends Spacer {

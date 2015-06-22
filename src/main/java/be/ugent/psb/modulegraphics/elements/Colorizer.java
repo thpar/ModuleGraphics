@@ -27,12 +27,17 @@ import java.awt.Color;
 /**
  * A Colorizer takes a values and determines which color to associate with it.
  * 
- * @author thpar
+ * @author Thomas Van Parys
  *
  * @param <T> the type of value on which to base the color.
  */
 public interface Colorizer<T> {
 
-	
+	/**
+	 * Calculate a color, based on the given element
+	 * 
+	 * @param element 
+	 * @return
+	 */
 	public Color getColor(T element);
 }

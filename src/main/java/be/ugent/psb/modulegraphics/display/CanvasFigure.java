@@ -46,6 +46,12 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
 
+/**
+ * Draws a {@link Canvas} on a Graphics object for a specific output format.
+ *  
+ * @author Thomas Van Parys
+ *
+ */
 public class CanvasFigure {
 
 	
@@ -67,6 +73,12 @@ public class CanvasFigure {
 		}
 	}
 
+	/**
+	 * Export the {@link Canvas} to the desired output format.
+	 * 
+	 * @param format EPS, PDF or PNG
+	 * @throws IOException
+	 */
 	public void writeToFigure(OutputFormat format) throws IOException{
 		switch(format){
 		case EPS: writeToEPS();

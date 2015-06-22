@@ -34,6 +34,12 @@ import javax.swing.JLabel;
 import be.ugent.psb.modulegraphics.clickable.ElementEventPassThrough;
 import be.ugent.psb.modulegraphics.elements.Canvas;
 
+/**
+ * Draws a {@link Canvas} on a {@link JLabel}
+ * 
+ * @author Thomas Van Parys
+ *
+ */
 public class CanvasLabel extends JLabel{
 
 	private static final long serialVersionUID = 1L;

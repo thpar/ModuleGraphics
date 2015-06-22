@@ -29,7 +29,7 @@ import java.awt.Color;
  * A simple colorizer checks if a gene is toggled on or off and colors
  * it accordingly.
  * 
- * @author thpar
+ * @author Thomas Van Parys
  *
  */
 public class SimpleColorizer implements Colorizer<Boolean>{

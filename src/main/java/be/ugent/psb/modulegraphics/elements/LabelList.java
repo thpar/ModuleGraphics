@@ -36,7 +36,7 @@ import java.util.Map;
  * A LabelList takes a List of Strings and draws them next to or under eachother
  * depending on the given direction.
  * 
- * @author thpar
+ * @author Thomas Van Parys
  *
  */
 public class LabelList extends Element{
@@ -46,7 +46,7 @@ public class LabelList extends Element{
 	
 	/**
 	 * List labels next to or below eachother
-	 * @author thpar
+	 * @author Thomas Van Parys
 	 *
 	 */
 	public enum Direction{
@@ -55,7 +55,7 @@ public class LabelList extends Element{
 	
 	/**
 	 * Draw labels straight or under an angle
-	 * @author thpar
+	 * @author Thomas Van Parys
 	 *
 	 */
 	public enum Angle{
@@ -68,7 +68,7 @@ public class LabelList extends Element{
 	
 	/**
 	 * Direction to turn your head while reading
-	 * @author thpar
+	 * @author Thomas Van Parys
 	 *
 	 */
 	public enum ReadingAngle{

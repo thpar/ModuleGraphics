@@ -32,7 +32,7 @@ import be.ugent.psb.modulegraphics.elements.Element;
  * Passes on {@link MouseEvent}s from a {@link Component} 
  * on to all listeners of a top{@link Element}
  * 
- * @author thpar
+ * @author Thomas Van Parys
  *
  */
 public class ElementEventPassThrough implements MouseListener {

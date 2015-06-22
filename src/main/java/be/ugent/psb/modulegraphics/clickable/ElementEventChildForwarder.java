@@ -30,7 +30,7 @@ import be.ugent.psb.modulegraphics.elements.Element;
 
 /**
  * Forwards {@link MouseEvent}s to child of an {@link Element} that has been hit.
- * @author thpar
+ * @author Thomas Van Parys
  *
  */
 public class ElementEventChildForwarder implements MouseListener {

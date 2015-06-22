@@ -32,6 +32,12 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a full gradient to be used as legend.
+ * 
+ * @author Thomas Van Parys
+ *
+ */
 public class LegendGradient extends Gradient {
 
 	List<CheckPoint> checkPoints = new ArrayList<CheckPoint>();
@@ -46,6 +52,13 @@ public class LegendGradient extends Gradient {
 	private String title = null;
 	private int titleMarginBottom = 10;
 	
+	/**
+	 * Initialize the gradient
+	 * 
+	 * @param min minimum value
+	 * @param max maximum value
+	 * @param c the {@link Colorizer} used to calculate the color scales
+	 */
 	public LegendGradient(double min, double max, Colorizer<Double> c) {
 		super(min, max, c);
 		minLabel = addLabel(min);

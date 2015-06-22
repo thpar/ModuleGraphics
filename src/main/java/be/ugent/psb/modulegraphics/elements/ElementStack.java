@@ -35,7 +35,7 @@ import java.util.List;
  * by newer elements.
  * 
  * 
- * @author thpar
+ * @author Thomas Van Parys
  *
  */
 public class ElementStack extends Element implements Iterable<Element>{

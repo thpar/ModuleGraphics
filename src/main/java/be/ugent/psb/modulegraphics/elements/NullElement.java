@@ -28,7 +28,7 @@ package be.ugent.psb.modulegraphics.elements;
  * new elements are being added. In other words: it will be drawn as a 
  * Spacer until it's replaced by a new Element.
  * 
- * @author thpar
+ * @author Thomas Van Parys
  *
  */
 public class NullElement extends Spacer {

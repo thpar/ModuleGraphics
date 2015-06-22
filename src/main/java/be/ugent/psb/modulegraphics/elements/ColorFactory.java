@@ -29,7 +29,7 @@ import java.lang.reflect.Field;
 /**
  * Utility class to work with colors.
  * 
- * @author thpar
+ * @author Thomas Van Parys
  * 
  */
 public class ColorFactory {

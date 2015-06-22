@@ -30,7 +30,12 @@ import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-
+/**
+ * A drop shape. Useful as an edge where start and ending point are the same.
+ * 
+ * @author Thomas Van Parys
+ *
+ */
 public class DropShape implements Shape {
 
 	GeneralPath path = new GeneralPath();

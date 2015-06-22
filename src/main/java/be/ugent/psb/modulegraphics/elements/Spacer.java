@@ -29,7 +29,7 @@ import java.awt.Graphics2D;
  * Empty element to keep space in the grid of a Canvas. A Spacer can have 
  * dimensions to keep at least a certain amount of space.
  * 
- * @author thpar
+ * @author Thomas Van Parys
  *
  */
 public class Spacer extends Element {

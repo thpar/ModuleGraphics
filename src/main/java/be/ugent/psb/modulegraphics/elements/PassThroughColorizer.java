@@ -24,6 +24,13 @@ package be.ugent.psb.modulegraphics.elements;
 
 import java.awt.Color;
 
+/**
+ * This colorizer doesn't calculate the required color but simply uses 
+ * the color handed to him.
+ * 
+ * @author Thomas Van Parys
+ *
+ */
 public class PassThroughColorizer implements Colorizer<Color> {
 
 	Color defaultColor = Color.WHITE;

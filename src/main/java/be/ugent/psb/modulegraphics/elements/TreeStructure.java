@@ -32,7 +32,7 @@ import java.awt.Graphics2D;
 /**
  * The tree branches that are put above the matrix with top regulators.
  * 
- * @author thpar
+ * @author Thomas Van Parys
  *
  */
 public class TreeStructure extends Element {

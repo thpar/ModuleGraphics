@@ -36,7 +36,7 @@ import java.util.Set;
  * Takes a List of edges and draws them next to or under eachother
  * depending on the given direction.
  * 
- * @author thpar
+ * @author Thomas Van Parys
  *
  */
 public class ConnectArrows extends Element{

@@ -29,7 +29,7 @@ import java.awt.Point;
 /**
  * Draws a grid of values. The values are coloured according to the given Colorizer.
  * 
- * @author thpar
+ * @author Thomas Van Parys
  *
  * @param <T> the type of value the matrix contains.
  */

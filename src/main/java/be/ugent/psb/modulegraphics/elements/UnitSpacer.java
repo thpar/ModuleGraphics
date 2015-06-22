@@ -25,11 +25,22 @@ package be.ugent.psb.modulegraphics.elements;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 
+/**
+ * A {@link Spacer} that takes its dimensions in Units.
+ * 
+ * @author Thomas Van Parys
+ *
+ */
 public class UnitSpacer extends Spacer {
 	
 	private int unitX = 0;
 	private int unitY = 0;
 
+	/**
+	 * 
+	 * @param unitX with in units
+	 * @param unitY height in units
+	 */
 	public UnitSpacer(int unitX, int unitY){
 		this.unitX = unitX;
 		this.unitY = unitY;

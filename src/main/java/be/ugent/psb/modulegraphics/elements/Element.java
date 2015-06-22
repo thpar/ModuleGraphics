@@ -38,7 +38,7 @@ import java.util.List;
  * They can be drawn on a Graphics object or can be grouped and layouted by 
  * a Canvas element.
  * 
- * @author thpar
+ * @author Thomas Van Parys
  *
  */
 public abstract class Element{

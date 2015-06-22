@@ -31,7 +31,7 @@ import java.awt.Graphics2D;
  * Simple testing element that draws a coloured rectangle of
  * given dimension in units.
  * 
- * @author thpar
+ * @author Thomas Van Parys
  *
  */
 public class Rectangle extends Element {
