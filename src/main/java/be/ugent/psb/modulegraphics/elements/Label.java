@@ -77,6 +77,7 @@ public class Label extends Element {
 	public Label(String text, Font font){
 		this.labelString = text;
 		setFont(font);
+		setBoxHeight(this.getUnit().height);
 	}
 	
 	
