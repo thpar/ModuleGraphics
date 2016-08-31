@@ -101,9 +101,9 @@
 	            				<projectName>ModuleGraphics</projectName>
 	            				<organizationName>VIB/PSB/UGent - Thomas Van Parys</organizationName>
 	            				<inceptionYear>2015</inceptionYear>
-	            				<canUpdateCopyright>true</canUpdateCopyright>
-	            				<canUpdateDescription>true</canUpdateDescription>
-	            				<canUpdateLicense>true</canUpdateLicense>
+	            				<canUpdateCopyright>false</canUpdateCopyright>
+	            				<canUpdateDescription>false</canUpdateDescription>
+	            				<canUpdateLicense>false</canUpdateLicense>
 	            				<verbose>true</verbose>
 	            				<roots>
 	                				<root>src/main/java</root>
