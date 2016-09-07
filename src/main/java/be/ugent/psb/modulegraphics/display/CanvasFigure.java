@@ -34,10 +34,6 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import net.sf.epsgraphics.ColorMode;
-import net.sf.epsgraphics.EpsGraphics;
-import be.ugent.psb.modulegraphics.elements.Canvas;
-
 import com.itextpdf.awt.DefaultFontMapper;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -45,6 +41,10 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import be.ugent.psb.modulegraphics.elements.Canvas;
+import net.sf.epsgraphics.ColorMode;
+import net.sf.epsgraphics.EpsGraphics;
 
 /**
  * Draws a {@link Canvas} on a Graphics object for a specific output format.
@@ -79,7 +79,7 @@ public class CanvasFigure {
 	 * @param format EPS, PDF or PNG
 	 * @throws IOException
 	 */
-	public void writeToFigure(OutputFormat format) throws IOException{
+	public void writeToFigure(OutputFormat format) throws IOException, DocumentException{
 		switch(format){
 		case EPS: writeToEPS();
 		break;
@@ -116,7 +116,6 @@ public class CanvasFigure {
 		this.canvas.paint(g2);
 		
 		ImageIO.write(bi, "png", outputFile);
-			
 	}
 	
 	public void writeToEPS() throws IOException{
@@ -144,7 +143,7 @@ public class CanvasFigure {
 		g2.close();
 	}
 	
-	public void writeToPDF() throws FileNotFoundException{
+	public void writeToPDF() throws FileNotFoundException, DocumentException{
 		Dimension dim = getDimension();
 		Document document = new Document(new Rectangle(dim.width, dim.height));
 		PdfWriter writer = null;
@@ -171,7 +170,7 @@ public class CanvasFigure {
 			g2.dispose();
 			cb.addTemplate(tp, 0, 0); 
 		} catch (DocumentException e) {
-			e.printStackTrace();
+			throw e;
 		} finally{
 			document.close();
 			writer.close();
